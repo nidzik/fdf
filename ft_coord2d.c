@@ -6,7 +6,7 @@
 /*   By: lebijuu <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/13 22:54:54 by lebijuu           #+#    #+#             */
-/*   Updated: 2015/02/14 04:09:18 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/02/14 18:45:05 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_2d ft_transform2d(t_3d p)
 	t_2d	np;
 	float	factor;
 
-	factor = 0.16;
+	factor = 0.15;
 	np.x = (p.x * factor * 3) - (p.y * factor * 3) - (p.z / (16 * factor))
 					 + (WIN_H / 2);
 	np.y = (p.x * factor * 2) + (p.y * factor * 2) - (p.z * (16 * factor)) 

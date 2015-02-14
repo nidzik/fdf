@@ -6,7 +6,7 @@
 /*   By: nidzik  <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/11 11:32:57 by nidzik            #+#    #+#             */
-/*   Updated: 2015/02/14 16:44:04 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/02/14 18:46:02 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void	draw(t_env e)
 	int		j;
 	double count;
 	t_3d	*p;
+	t_2d	p1;
+	t_2d	p0;
 
 	i = 0;
 	j = 0;
@@ -39,7 +41,9 @@ void	draw(t_env e)
 	x = 100;
 	
 	count = 0;
-	ft_draw_line(*ft_create2d(300,600), *ft_create2d(500,600), &e, 0xff0000);
+	p0 = *ft_create2d(300,400);
+	p1 = *ft_create2d(500,600);
+	ft_draw_line(p0,p1, &e, 0xffff00);
 	printf("col : %d    line : %d\n",ft_count_columns(e.map),ft_count_rows("test"));fflush(stdout);
 	while (x < e.width - 100)
 	{

@@ -6,7 +6,7 @@
 /*   By: nidzik  <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/11 11:56:31 by nidzik            #+#    #+#             */
-/*   Updated: 2015/02/14 16:12:50 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/02/14 17:56:16 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <mlx.h>
 # include <unistd.h>
 # include "libft/libft.h"
-
+# include <stdlib.h>
 # define LINE_COLOR 0xccff00
 # define WIN_H		900
 # define WIN_W		1200
