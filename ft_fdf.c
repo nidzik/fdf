@@ -6,13 +6,13 @@
 /*   By: nidzik  <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/11 11:32:57 by nidzik            #+#    #+#             */
-/*   Updated: 2015/02/14 04:07:00 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/02/14 16:44:04 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <mlx.h>
+//#include <mlx.h>
 #include "fdf.h"
-#include <unistd.h>
+//#include <unistd.h>
 //#include "libft/libft.h"
 /* void	stock_map(char *str, t_env e) */
 /* { */
@@ -37,13 +37,15 @@ void	draw(t_env e)
 	/* printf("\n%f  %f  %f\n",yp,xp); */
 	y = 100;
 	x = 100;
+	
 	count = 0;
+	ft_draw_line(*ft_create2d(300,600), *ft_create2d(500,600), &e, 0xff0000);
 	printf("col : %d    line : %d\n",ft_count_columns(e.map),ft_count_rows("test"));fflush(stdout);
 	while (x < e.width - 100)
 	{
 		while (y < e.height - 100)
 		{
-			if (y % SPACE == 0)//((int)space == count) 
+			if (SPACE == count) //(y % SPACE == 0&& 
 			{
 				count = 0;
 				if (e.map[j][i] == '1' && e.map[j][i])
@@ -51,10 +53,14 @@ void	draw(t_env e)
 					p = ft_create3d(x, y, 10);
 					ft_print2d(ft_transform2d(*p),0xccff00, &e);
 				}
-				else if (e.map[j][i])
+				else if (e.map[j][i] && e.map[j][i] == '2')
 				{
-					p = ft_create3d(x, y, 10);
+					ft_draw_line(ft_transform2d(*ft_create3d(x, y, 10)),   ft_transform2d(*ft_create3d(x, y, 20)), &e,0xff0000);
+					ft_print2d(ft_transform2d(*ft_create3d(x,y, 10)),0xff0000, &e);
+					p = ft_create3d(x, y, 20);
+					
 					ft_print2d(ft_transform2d(*p),0xff0000, &e);
+					
 				}
 				j++;
 			}
