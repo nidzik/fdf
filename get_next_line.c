@@ -6,11 +6,11 @@
 /*   By: nidzik <nidzik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/13 10:17:08 by nidzik            #+#    #+#             */
-/*   Updated: 2015/02/13 13:02:48 by nidzik           ###   ########.fr       */
+/*   Updated: 2015/02/13 18:26:04 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
+//#include "libft/libft.h"
 #include "fdf.h"
 
 int		ft_strpos(const char *str, char c)
@@ -123,7 +123,7 @@ t_env ft_main(t_env *e)
   char	** line;
   /* t_env	e; */
   int i;
-  ft_count_raws("test");
+  ft_count_rows("test");
   i = 0;
   fd = open("test", O_RDONLY);
   e->map = malloc(100);
@@ -135,7 +135,7 @@ t_env ft_main(t_env *e)
     {
 
 			e->map[i] = *line;
-			printf("%d\n",i);fflush(stdout);
+//			printf("%d\n",i);fflush(stdout);
 			printf("%s--\n",e->map[i]);fflush(stdout);
 			i++;
     }

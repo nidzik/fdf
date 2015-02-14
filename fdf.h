@@ -6,7 +6,7 @@
 /*   By: nidzik  <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/11 11:56:31 by nidzik            #+#    #+#             */
-/*   Updated: 2015/02/13 12:24:02 by nidzik           ###   ########.fr       */
+/*   Updated: 2015/02/14 04:02:56 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 # define FDF_H
 
-# include <mlx.h>
-# include <unistd.h>
-# include "libft/libft.h"
+#include <mlx.h>
+#include <unistd.h>
+#include "libft/libft.h"
 
 # define LINE_COLOR 0xccff00
-# define WIN_H		1200
-# define WIN_W		1900
-# define INTERVAL	30
+# define WIN_H		900
+# define WIN_W		1200
+# define SPACE		116
 
 typedef struct	s_env
 {
@@ -31,13 +31,32 @@ typedef struct	s_env
 	int		height;
 	char	**map;
 }				t_env;
+
 typedef struct s_win
 {
 	int			w;
 	int			h;
 }				t_win;
 
+typedef struct	s_2d
+{
+	int			x;
+	int			y;
+}				t_2d;
+
+typedef	struct	s_3d
+{
+	int			x;
+	int			y;
+	int			z;
+}				t_3d;
+
 /* void	stock_map(char *str); */
+t_3d	ft_create_3d_point_from_2d(t_2d pdx, int z);
+t_3d	*ft_create3d(int x, int y, int z);
+void	ft_print2d(t_2d p, unsigned int color, t_env *e);
+t_2d	ft_transform2d(t_3d p);
+t_2d	*ft_create2d(int x, int y);
 int     ft_count_columns(char **elts);
 int		ft_count_rows(char *name);
 void    draw(t_env e);
