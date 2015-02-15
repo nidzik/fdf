@@ -6,7 +6,7 @@
 /*   By: nidzik  <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/11 11:56:31 by nidzik            #+#    #+#             */
-/*   Updated: 2015/02/14 17:56:16 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/02/15 15:48:23 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct	s_env
 	int		width;
 	int		height;
 	char	**map;
+	int		**mapi;
 }				t_env;
 
 typedef struct s_win

@@ -6,7 +6,7 @@
 /*   By: nidzik  <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/11 11:32:57 by nidzik            #+#    #+#             */
-/*   Updated: 2015/02/14 18:46:02 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/02/15 15:01:04 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,10 @@ void	draw(t_env e)
 					ft_draw_line(ft_transform2d(*ft_create3d(x, y, 10)),   ft_transform2d(*ft_create3d(x, y, 20)), &e,0xff0000);
 					ft_print2d(ft_transform2d(*ft_create3d(x,y, 10)),0xff0000, &e);
 					p = ft_create3d(x, y, 20);
-					
 					ft_print2d(ft_transform2d(*p),0xff0000, &e);
-					
 				}
 				j++;
 			}
-			
 			count = count + 1;
 			y+=1;
 		}
@@ -84,11 +81,11 @@ void	draw(t_env e)
 	
 /* } */
 
-int		expose_hook(t_env *e)
-{
-	draw(*e);
-	return (0);
-}
+/* int		expose_hook(t_env *e) */
+/* { */
+/* 	draw(*e); */
+/* 	return (0); */
+//}
 
 int		main(void)
 {
@@ -102,8 +99,8 @@ int		main(void)
 	e.win = mlx_new_window(e.mlx, e.width, e.height, "42");
 	
 	draw(e);
-//	sleep(5);
-	mlx_expose_hook(e.win, expose_hook, &e);
-	mlx_loop(e.mlx);
+	sleep(5);
+//	mlx_expose_hook(e.win, expose_hook, &e);
+//	mlx_loop(e.mlx);
 	return (0);
 }

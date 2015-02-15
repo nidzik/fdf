@@ -6,7 +6,7 @@
 /*   By: nidzik <nidzik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/13 10:17:08 by nidzik            #+#    #+#             */
-/*   Updated: 2015/02/13 18:26:04 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/02/15 16:31:01 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,8 +121,8 @@ t_env ft_main(t_env *e)
 {
   int	fd;
   char	** line;
-  /* t_env	e; */
   int i;
+  e.mapi = malloc
   ft_count_rows("test");
   i = 0;
   fd = open("test", O_RDONLY);
