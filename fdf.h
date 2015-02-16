@@ -6,7 +6,7 @@
 /*   By: nidzik  <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/11 11:56:31 by nidzik            #+#    #+#             */
-/*   Updated: 2015/02/15 15:48:23 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/02/16 11:37:37 by nidzik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,9 @@ typedef struct	s_line
 }				t_line;
 
 /* void	stock_map(char *str); */
-void      ft_draw_line(t_2d p0, t_2d p1, t_env *e, int color);
+int     ft_getnbr(char *str);
+void    ft_char_to_int(t_env e, char *str, int i);
+void    ft_draw_line(t_2d p0, t_2d p1, t_env *e, int color);
 t_3d	ft_create_3d_point_from_2d(t_2d pdx, int z);
 t_3d	*ft_create3d(int x, int y, int z);
 void	ft_print2d(t_2d p, unsigned int color, t_env *e);
