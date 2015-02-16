@@ -6,7 +6,7 @@
 /*   By: nidzik  <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/11 11:56:31 by nidzik            #+#    #+#             */
-/*   Updated: 2015/02/16 11:37:37 by nidzik           ###   ########.fr       */
+/*   Updated: 2015/02/16 20:07:11 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,18 @@ typedef struct	s_line
 	double		size;
 }				t_line;
 
+typedef struct	s_ctx
+{
+	int			x;
+	int			y;
+	int			i;
+	int			j;
+	t_3d		*p;
+	t_3d		**tabp;
+}				t_ctx;
+
 /* void	stock_map(char *str); */
+void	ft_print_line(t_ctx ctx, t_env e);
 int     ft_getnbr(char *str);
 void    ft_char_to_int(t_env e, char *str, int i);
 void    ft_draw_line(t_2d p0, t_2d p1, t_env *e, int color);
@@ -69,7 +80,8 @@ t_3d	*ft_create3d(int x, int y, int z);
 void	ft_print2d(t_2d p, unsigned int color, t_env *e);
 t_2d	ft_transform2d(t_3d p);
 t_2d	*ft_create2d(int x, int y);
-int     ft_count_columns(char **elts);
+int     ft_count_columns(char *str);
+int     ft_count_columns_int(int *str);
 int		ft_count_rows(char *name);
 void    draw(t_env e);
 int     expose_hook(t_env *e);

@@ -6,7 +6,7 @@
 /*   By: nidzik <nidzik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/13 11:52:27 by nidzik            #+#    #+#             */
-/*   Updated: 2015/02/16 12:23:51 by nidzik           ###   ########.fr       */
+/*   Updated: 2015/02/16 20:04:30 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,14 @@ int			ft_count_columns(char *str)
 	return (c);
 }
 
+int         ft_count_columns_int(int *str)
+{
+    int     c;
 
+    c = 0;
+    while (str[c] != '\0')
+    {
+        c++;
+    }
+    return (c);
+}

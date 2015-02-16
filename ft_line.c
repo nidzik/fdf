@@ -6,7 +6,7 @@
 /*   By: lebijuu <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/14 15:09:44 by lebijuu           #+#    #+#             */
-/*   Updated: 2015/02/15 15:03:24 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/02/16 20:23:25 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,17 @@ void		ft_draw_line(t_2d p0, t_2d p1, t_env *e, int color)
 		//printf("%d   %d    %f \n",p0.x,p0.y,l.dx);
 		mlx_pixel_put(e->mlx, e->win, (int)a, b, color);
 	}
+}
+
+void		ft_print_line(t_ctx ctx, t_env e)
+{
+	if (ctx.i == 0 && ctx.j == 0)
+		ctx.tabp=(t_3d **)malloc(sizeof(t_3d *) * ft_count_rows("test"));
+	
+		ctx.tabp[ctx.j] = (t_3d *)malloc(sizeof(t_3d) * ft_count_columns_int(e.mapi[0]));
+	ctx.tabp[ctx.j][ctx.i] = *ctx.p;
+	ctx.tabp[ctx.j + 1] = NULL;
+	
+	printf("%d %d %d %d\n", ctx.tabp[ctx.j][ctx.i].x, ctx.tabp[ctx.j][ctx.i].y, ctx.tabp[ctx.j][ctx.i].z, ft_count_columns_int(e.mapi[0]));fflush(stdout);
+	
 }

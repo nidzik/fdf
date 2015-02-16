@@ -6,7 +6,7 @@
 /*   By: nidzik <nidzik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/13 10:17:08 by nidzik            #+#    #+#             */
-/*   Updated: 2015/02/15 16:31:01 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/02/16 17:48:56 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,26 +122,42 @@ t_env ft_main(t_env *e)
   int	fd;
   char	** line;
   int i;
-  e.mapi = malloc
+  int y;
+
+  y = 0;
   ft_count_rows("test");
   i = 0;
   fd = open("test", O_RDONLY);
   e->map = malloc(100);
-			printf("%d\n",i);fflush(stdout);
+  printf("%d\n",i);fflush(stdout);
+  e->mapi = (int **)malloc(sizeof(int *) * 100);
   if ( fd > 1 )
     {
       line = (char **) malloc(2);
       while (get_next_line (fd, line) > 0)
     {
-
+			/* if (y == 0) */
+			/* { */
+			/* 	e->mapi = (int **)malloc(sizeof(int *) * ft_count_columns(*line)); */
+			/* 	y++; */
+			/* } */
 			e->map[i] = *line;
-//			printf("%d\n",i);fflush(stdout);
-			printf("%s--\n",e->map[i]);fflush(stdout);
+			ft_char_to_int(*e, *line, i);
+			printf("--%s--\n",e->map[i]);fflush(stdout);
 			i++;
     }
+	  e->mapi[i] = NULL;
 	  e->map[i] = NULL;
+	  i = 0;
     free (line);
     close(fd);
 }
+  	  while (e->mapi[i])
+	  {
+		  y = 0;
+		  while (e->mapi[i][y] != '\0')
+			  printf("->%d",e->mapi[i][y++]);fflush(stdout);
+		  i++;
+	  }
 return (*e);
 }

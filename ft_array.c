@@ -6,7 +6,7 @@
 /*   By: lebijuu <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/15 15:48:44 by lebijuu           #+#    #+#             */
-/*   Updated: 2015/02/16 13:21:41 by nidzik           ###   ########.fr       */
+/*   Updated: 2015/02/16 17:29:49 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ void		ft_char_to_int(t_env e, char *str, int i)
 		if (*str == ' ')
 			str++;
 		else
-			e.mapi[i][cpt++] = ft_getnbr(str);
-		ft_putnbr(e.mapi[i][cpt - 1]);
+			e.mapi[i][cpt++] = ft_getnbr(str++);
+
 	}
-	e.mapi[i][cpt] = '\0'
+		e.mapi[i][cpt] = '\0';
 }
 
 int			ft_getnbr(char *str)
@@ -39,7 +39,10 @@ int			ft_getnbr(char *str)
 	if (str == NULL)
 		return (0);
 	if (*str == '-')
+	{
 		sign = -1;
+		str++;
+	}
 	while ((*str > 47) && (*str < 58))
 	{
 		res = (res * 10) + *str - '0';

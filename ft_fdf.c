@@ -6,7 +6,7 @@
 /*   By: nidzik  <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/11 11:32:57 by nidzik            #+#    #+#             */
-/*   Updated: 2015/02/16 10:51:28 by nidzik           ###   ########.fr       */
+/*   Updated: 2015/02/16 20:09:14 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,58 +21,52 @@
 
 void	draw(t_env e)
 {
-	/* double		xp; */
-	/* double		yp; */
-	int x;
-	int y;
-	int		i;
-	int		j;
 	double count;
-	t_3d	*p;
-	t_2d	p1;
-	t_2d	p0;
+	t_ctx	ctx;
 
-	i = 0;
-	j = 0;
+	ctx.i = 0;
+	ctx.j = 0;
 	/* yp = (WIN_W - 200) / ft_count_columns(e.map); */
 	/* xp = (WIN_H - 200) / ft_count_rows("test"); */
 	/* printf("\n%f  %f  %f\n",yp,xp); */
-	y = 100;
-	x = 100;
+	ctx.y = 100;
+	ctx.x = 100;
 	
 	count = 0;
-	p0 = *ft_create2d(300,400);
-	p1 = *ft_create2d(500,600);
-	ft_draw_line(p0,p1, &e, 0xffff00);
-	printf("col : %d    line : %d\n",ft_count_columns(e.map),ft_count_rows("test"));fflush(stdout);
-	while (x < e.width - 100)
+	printf("col : %d    line : %d\n",ft_count_columns(e.map[0]),ft_count_rows("test"));fflush(stdout);
+	while (ctx.x < e.width - 100)
 	{
-		while (y < e.height - 100)
+		while (ctx.y < e.height - 100)
 		{
-			if (SPACE == count) //(y % SPACE == 0&& 
+			if (SPACE == count) //([ctx.y] % SPACE == 0&& 
 			{
 				count = 0;
-				if (e.map[j][i] == '1' && e.map[j][i])
+				if (e.mapi[ctx.j][ctx.i])
 				{
-					p = ft_create3d(x, y, 10);
-					ft_print2d(ft_transform2d(*p),0xccff00, &e);
+					ctx.p = ft_create3d(ctx.x, ctx.y, e.mapi[ctx.j][ctx.i] * 10);
+					printf("%d-",e.mapi[ctx.j][ctx.i] );fflush(stdout);
+					if (e.mapi[ctx.j][ctx.i] == 1)
+						ft_print2d(ft_transform2d(*ctx.p),0xff0000, &e);
+					else
+						ft_print2d(ft_transform2d(*ctx.p),0x0000ff, &e);
+					ft_print_line(ctx, e);
 				}
-				else if (e.map[j][i] && e.map[j][i] == '2')
-				{
-					ft_draw_line(ft_transform2d(*ft_create3d(x, y, 10)),   ft_transform2d(*ft_create3d(x, y, 20)), &e,0xff0000);
-					ft_print2d(ft_transform2d(*ft_create3d(x,y, 10)),0xff0000, &e);
-					p = ft_create3d(x, y, 20);
-					ft_print2d(ft_transform2d(*p),0xff0000, &e);
-				}
-				j++;
+				/* else if (e.map[ctx.j][ctx.i] && e.map[ctx.j][ctx.i] == '2') */
+				/* { */
+				/* 	ft_draw_line(ft_transform2d(*ft_create3d(ctx.x, ctx.y, 10)),   ft_transform2d(*ft_create3d(ctx.x, ctx.y, 20)), &e,0xff0000); */
+				/* 	ft_print2d(ft_transform2d(*ft_create3d(ctx.x,ctx.y, 10)),0xff0000, &e); */
+				/* 	ctx.p = ft_create3d(ctx.x, ctx.y, 20); */
+				/* 	ft_print2d(ft_transform2d(*ctx.p),0xff0000, &e); */
+				/* } */
+				ctx.j++;
 			}
 			count = count + 1;
-			y+=1;
+			ctx.y+=1;
 		}
-		i+=1;
-		j = 0;
-		y = 100;
-		x+=SPACE;
+		ctx.i+=1;
+		ctx.j = 0;
+		ctx.y = 100;
+		ctx.x+=SPACE;
 	}
 }
 
