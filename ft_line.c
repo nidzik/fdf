@@ -6,7 +6,7 @@
 /*   By: lebijuu <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/14 15:09:44 by lebijuu           #+#    #+#             */
-/*   Updated: 2015/02/17 11:42:49 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/02/17 22:24:35 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,9 @@ void		ft_printf_line(t_ctx ctx, t_env e)
 	int i; 
 	int j;
 	int stop;
+	int color;
 
+	color = 0xff0000;
 	i = 0;
 	j = 0;
 	stop = ctx.i;
@@ -70,33 +72,29 @@ void		ft_printf_line(t_ctx ctx, t_env e)
 		while (i + 1 != stop )
 		{
 		if (ctx.tabp[j + 1])
-ft_draw_line(ft_transform2d(ctx.tabp[j][i]), ft_transform2d(ctx.tabp[j + 1][i]), &e, 0xff0000);
-
-			printf(" %d %d %d %d %d %d\n", j, i, ctx.tabp[j][i].x, ctx.tabp[j][i].y, ctx.tabp[j][i].z, ft_count_columns_int(e.mapi[0]));fflush(stdout);			
-			ft_draw_line(ft_transform2d(ctx.tabp[j][i]), ft_transform2d(ctx.tabp[j][i + 1]), &e, 0xff0000);
+		{
+			if (ctx.tabp[j][i].z > 8)
+				color = 0xccff00;
+			else 
+				color = 0xff0000;
+ft_draw_line(ft_transform2d(ctx.tabp[j][i]), ft_transform2d(ctx.tabp[j + 1][i]), &e, color);
+		}
+			printf("print_line : \n j = %d   i = %d   x = %d    y = %d   z = %d    colonne %d\n", j, i, ctx.tabp[j][i].x, ctx.tabp[j][i].y, ctx.tabp[j][i].z, ft_count_columns_int(e.mapi[0]));fflush(stdout);
+			if (ctx.tabp[j][i].z > 8)
+				color = 0xccff00;
+			else
+				color = 0xff0000;
+			ft_draw_line(ft_transform2d(ctx.tabp[j][i]), ft_transform2d(ctx.tabp[j][i + 1]), &e, color);
+			
 			i++;
 
+		
 		}
 		if (ctx.tabp[j + 1])
-ft_draw_line(ft_transform2d(ctx.tabp[j][i]), ft_transform2d(ctx.tabp[j + 1][i]), &e, 0xff0000);
+ft_draw_line(ft_transform2d(ctx.tabp[j][i]), ft_transform2d(ctx.tabp[j + 1][i]), &e, color);
 		j++;
 		i = 0;
 	}
-	/* ft_putchar('q'); */
-	/* i = 0; */
-	/* j = 0; */
-	/* stop = ctx.j; */
-	/* while (ctx.tabp[i]) */
-	/* { */
-	/* 	/\* ft_draw_line(ft_transform2d(ctx.tabp[j][i]), ft_transform2d(ctx.tabp[j][i + 1]), &e, 0xff0000); *\/ */
-	/* 	while (j + 1 != stop) */
-	/* 	{ */
-	/* 		ft_draw_line(ft_transform2d(ctx.tabp[j][i]), ft_transform2d(ctx.tabp[j][i + 1]), &e, 0xff0000); */
-	/* 		j++; */
-	
-	/* 	} */
-	/* 	i++; */
-	/* 	j = 0; */
-	/* } */
+
 
 }

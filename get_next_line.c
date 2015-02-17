@@ -6,7 +6,7 @@
 /*   By: nidzik <nidzik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/13 10:17:08 by nidzik            #+#    #+#             */
-/*   Updated: 2015/02/16 17:48:56 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/02/17 23:15:50 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ t_env ft_main(t_env *e)
 			printf("--%s--\n",e->map[i]);fflush(stdout);
 			i++;
     }
-	  e->mapi[i] = NULL;
+	  e->mapi[i+ 1 ] = NULL;
 	  e->map[i] = NULL;
 	  i = 0;
     free (line);

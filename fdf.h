@@ -6,7 +6,7 @@
 /*   By: nidzik  <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/11 11:56:31 by nidzik            #+#    #+#             */
-/*   Updated: 2015/02/17 12:03:41 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/02/17 14:26:15 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # define LINE_COLOR 0xccff00
 # define WIN_H		900
 # define WIN_W		1200
-# define SPACE		116
+# define SPACE		115
 
 typedef struct	s_env
 {
