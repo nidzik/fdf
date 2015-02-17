@@ -6,7 +6,7 @@
 /*   By: nidzik  <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/11 11:32:57 by nidzik            #+#    #+#             */
-/*   Updated: 2015/02/16 20:09:14 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/02/17 12:09:25 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,11 @@ void	draw(t_env e)
 	
 	count = 0;
 	printf("col : %d    line : %d\n",ft_count_columns(e.map[0]),ft_count_rows("test"));fflush(stdout);
+    ctx.tabp=(t_3d **)malloc(sizeof(t_3d *) * ft_count_rows("test"));
+
 	while (ctx.x < e.width - 100)
 	{
+			
 		while (ctx.y < e.height - 100)
 		{
 			if (SPACE == count) //([ctx.y] % SPACE == 0&& 
@@ -43,13 +46,14 @@ void	draw(t_env e)
 				count = 0;
 				if (e.mapi[ctx.j][ctx.i])
 				{
+					if (ctx.i ==0)
+						ctx.tabp[ctx.j] = (t_3d *)malloc(sizeof(t_3d)*100);// ft_count_columns_int(e.mapi[0]));
+
 					ctx.p = ft_create3d(ctx.x, ctx.y, e.mapi[ctx.j][ctx.i] * 10);
 					printf("%d-",e.mapi[ctx.j][ctx.i] );fflush(stdout);
-					if (e.mapi[ctx.j][ctx.i] == 1)
 						ft_print2d(ft_transform2d(*ctx.p),0xff0000, &e);
-					else
 						ft_print2d(ft_transform2d(*ctx.p),0x0000ff, &e);
-					ft_print_line(ctx, e);
+					ft_stock_mapi(ctx, e);
 				}
 				/* else if (e.map[ctx.j][ctx.i] && e.map[ctx.j][ctx.i] == '2') */
 				/* { */
@@ -67,7 +71,10 @@ void	draw(t_env e)
 		ctx.j = 0;
 		ctx.y = 100;
 		ctx.x+=SPACE;
+
 	}
+	ctx.tabp[ft_count_rows("test")] = NULL;
+	ft_printf_line(ctx, e);
 }
 
 /* void draw(void *mlx, void *win) */
