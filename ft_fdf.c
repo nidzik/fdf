@@ -6,7 +6,7 @@
 /*   By: nidzik  <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/11 11:32:57 by nidzik            #+#    #+#             */
-/*   Updated: 2015/02/17 23:07:27 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/03/19 17:24:13 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	draw(t_env e)
 			{
 				/* printf("\n\n space : %d ctx.i : %d ctx.j : %d ctx.x : %d ctx.y : %d\n\n\n",space, ctx.i, ctx.j, ctx.x, ctx.y);fflush(stdout); */
 				count = 0;
-				if (e.mapi[ctx.j][ctx.i])
+				if (e.mapi[ctx.j][ctx.i] != '\n')
 				{
 					if (ctx.i == 0)
 						ctx.tabp[ctx.j] = (t_3d *)malloc(sizeof(t_3d)*100);// ft_count_columns_int(e.mapi[0]));

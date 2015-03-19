@@ -6,7 +6,7 @@
 /*   By: lebijuu <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/14 15:09:44 by lebijuu           #+#    #+#             */
-/*   Updated: 2015/02/17 22:24:35 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/03/19 17:32:20 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,11 @@ void		ft_stock_mapi(t_ctx ctx, t_env e)
 	//ctx.tabp=(t_3d **)malloc(sizeof(t_3d *) * ft_count_rows("test"));
 	//if (ctx.j == 0)
 	//ctx.tabp[ctx.j] = (t_3d *)malloc(sizeof(t_3d) * ft_count_columns_int(e.mapi[0]));
-	ctx.tabp[ctx.j][ctx.i] = *ctx.p;
+	/* if (ctx.tabp[ctx.j][ctx.i].z != '\n') */
+		ctx.tabp[ctx.j][ctx.i] = *ctx.p;
 //	ctx.tabp[ctx.j + 1] = NULL;
 	
-	printf(" %d %d %d %d %d %d\n", ctx.j, ctx.i, ctx.tabp[ctx.j][ctx.i].x, ctx.tabp[ctx.j][ctx.i].y, ctx.tabp[ctx.j][ctx.i].z, ft_count_columns_int(e.mapi[0]));fflush(stdout);
+	//printf(" %d %d %d %d %d %d\n", ctx.j, ctx.i, ctx.tabp[ctx.j][ctx.i].x, ctx.tabp[ctx.j][ctx.i].y, ctx.tabp[ctx.j][ctx.i].z, ft_count_columns_int(e.mapi[0]));fflush(stdout);
 
 }
 
@@ -62,7 +63,7 @@ void		ft_printf_line(t_ctx ctx, t_env e)
 	int stop;
 	int color;
 
-	color = 0xff0000;
+	color = 0xffffff;
 	i = 0;
 	j = 0;
 	stop = ctx.i;
@@ -74,14 +75,14 @@ void		ft_printf_line(t_ctx ctx, t_env e)
 		if (ctx.tabp[j + 1])
 		{
 			if (ctx.tabp[j][i].z > 8)
-				color = 0xccff00;
+				color = 0xffffff;
 			else 
 				color = 0xff0000;
 ft_draw_line(ft_transform2d(ctx.tabp[j][i]), ft_transform2d(ctx.tabp[j + 1][i]), &e, color);
 		}
 			printf("print_line : \n j = %d   i = %d   x = %d    y = %d   z = %d    colonne %d\n", j, i, ctx.tabp[j][i].x, ctx.tabp[j][i].y, ctx.tabp[j][i].z, ft_count_columns_int(e.mapi[0]));fflush(stdout);
 			if (ctx.tabp[j][i].z > 8)
-				color = 0xccff00;
+				color = 0xffffff;
 			else
 				color = 0xff0000;
 			ft_draw_line(ft_transform2d(ctx.tabp[j][i]), ft_transform2d(ctx.tabp[j][i + 1]), &e, color);

@@ -6,7 +6,7 @@
 /*   By: nidzik  <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/11 11:56:31 by nidzik            #+#    #+#             */
-/*   Updated: 2015/02/17 14:26:15 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/03/19 10:19:31 by bbichero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <math.h>
 # include <mlx.h>
 # include <unistd.h>
-# include "libft/libft.h"
+# include "./libft/libft.h"
 # include <stdlib.h>
 # define LINE_COLOR 0xccff00
 # define WIN_H		900
@@ -88,8 +88,11 @@ void    draw(t_env e);
 int     expose_hook(t_env *e);
 t_env	ft_main(t_env *e);
 int     get_next_line(int const fd, char **line);
-void	ft_read(int const *fd, char **line, char **tmp, long *ret);
+static int	ft_read(int fd, char **tmp);
 void    ft_add_line(char **line, char **tmp, long len);
 int     ft_strpos(const char *str, char c);
+static char		*ft_get_join(char *s1, char *s2);
+static void		ft_truc(char **line, char **tmp, int *ret);
+
 
 #endif

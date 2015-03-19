@@ -6,7 +6,7 @@
 /*   By: lebijuu <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/15 15:48:44 by lebijuu           #+#    #+#             */
-/*   Updated: 2015/02/17 23:11:59 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/03/19 18:27:44 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 void		ft_char_to_int(t_env e, char *str, int i)
 {
 	int		cpt;
+	int getnb;
 
+	getnb = 0;
 	cpt = 0;
 	e.mapi[i] = (int *)malloc(sizeof(int) * ft_strlen(str));
 	while (*str)
@@ -23,10 +25,24 @@ void		ft_char_to_int(t_env e, char *str, int i)
 		if (*str == ' ')
 			str++;
 		else
-			e.mapi[i][cpt++] = ft_getnbr(str++);
-		printf("!!! %d !!!\n", e.mapi[i][cpt--]);
+		{
+			getnb = ft_getnbr(str);
+			if (getnb == 10)
+				ft_putstr("yolo");
+			e.mapi[i][cpt] = getnb;
+			if (getnb >= 10)
+				str++;
+		printf("!!! %d !!!\n", e.mapi[i][cpt]);
+		cpt++;
+		str++;
+		}
 	}
-		e.mapi[i][cpt] = '\0';
+		/* e.mapi[i][cpt] = '\n'; */
+		/* cpt++; */
+	e.mapi[i][cpt] = '\n';
+		/* cpt = 0; */
+		/* while (e.mapi[i][cpt]) */
+			/* printf("-> %d ", e.mapi[i][cpt++]); */
 }
 
 int			ft_getnbr(char *str)
@@ -43,14 +59,13 @@ int			ft_getnbr(char *str)
 		sign = -1;
 		str++;
 	}
-	while ((*str > 47) && (*str < 58))
+	while (((*str > 47) && (*str < 58)))
 	{
 		printf("coucou");fflush(stdout);
 		res = (res * 10) + *str - 48;
 		str++;
 	}
-
 	res = res * sign;
 	ft_putnbr(res);
-	return (res);
+	return (res );
 }

@@ -5,137 +5,130 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nidzik <nidzik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/02/13 10:17:08 by nidzik            #+#    #+#             */
-/*   Updated: 2015/02/17 23:15:50 by lebijuu          ###   ########.fr       */
+/*   Created: 2015/02/20 09:35:43 by nidzik            #+#    #+#             */
+/*   Updated: 2015/03/19 15:22:23 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "libft/libft.h"
 #include "fdf.h"
 
-int		ft_strpos(const char *str, char c)
+static char *ft_get_join(char *s1, char *s2)
 {
-  char *cpstr;
-  int i;
+	char    *dst;
+	if (s1 == NULL)
+	{
+		s1 = ft_strnew(1);
+		ft_bzero(s1, sizeof(s1));
+		s1 = "";
+	}
+	if (!s1 || !s2)
+		return ((char *)0);
+	dst = ft_strnew(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (!dst)
+		return ((char *)0);
+	ft_strcpy(dst, s1);
+	/* 	free(s1); */
 
-  i = 0;
-  cpstr = (char *)str;
-  while (*cpstr != '\0') 
-    {
-      if (*cpstr == c)
-	return (i);
-      cpstr++;
-      i++;
-    }
-  return (i);
+	ft_strcat(dst, s2);
+	return (dst);
 }
 
-void		ft_add_line(char **line, char **tmp, long len)
+static int		ft_read(int fd, char **tmp)
 {
-  char		*thistmp;
-  long		leni;
+	int		ret;
+	char	buf[BUF_SIZE + 1];
 
-  if (line == NULL)
-    //line = (char **)malloc(sizeof(char **));
-    line = (char **)ft_memalloc(sizeof(char **));
-  leni = ft_strlen(*line);
-  *line = (char *)ft_realloc(*line, leni, leni + len + 1);
-
- if (*line)
-    {
- 
-      (*line)[leni + len] = '\0';
- 
-      ft_strncat (*line, *tmp, len);
-      thistmp = ft_strnew(BUF_SIZE * sizeof(char *));
-
-      if (thistmp)
+	if (*tmp != NULL && ft_strchr(*tmp, '\n'))
+		return (1);
+	ft_bzero(buf, sizeof(buf));
+	while ((ret = read(fd, buf, BUF_SIZE)) > 0)
 	{
-	  ft_strncat(thistmp, (*tmp) + len + 1, BUF_SIZE - len - 1);
-	  free(*tmp);
-	  *tmp = thistmp;
-      
+		*tmp = ft_get_join(*tmp, buf);
+
+		/* 		*tmp = ft_strjoin(*tmp == NULL ? "" : *tmp, buf); */
+		//	printf("     (%s)\n", *tmp);
+		if (*tmp == NULL) //verif malloc
+			return (-1);
+		if (ft_strchr(*tmp, '\n') != NULL)
+			break ;
+		ft_bzero(buf, sizeof(buf));
 	}
-    }
+	return (ret <= 0 ? ret : 1);
 }
 
-void ft_read(int const *fd, char **line, char **tmp, long *ret)
+static void	ft_truc(char **line, char **tmp, int *ret) //line est vide, //tmp contient mes trucs
 {
-  int stop;
+	char	*ptr;
 
-  stop = 0;
-  if (*tmp == NULL)
-    {
-      *tmp = ft_strnew(BUF_SIZE * sizeof(char *));
-      *ret = read(*fd, *tmp, BUF_SIZE);
-      //printf("%s**",*tmp);
-    }  
-  *line = ft_strnew(BUF_SIZE * sizeof(char *));
-  
-  while (*line != NULL && *ret == BUF_SIZE && !stop)
-    {
-
-      if (ft_strchr(*tmp, '\n') != 0)
+	//	printf("[%s]\n", *tmp);
+	if (*tmp != NULL && ft_strlen(*tmp) > 0)
 	{
-	  //printf("-coucouif trouv /n-\n\n");fflush(stdout);	  
-	  ft_add_line(line, tmp, ft_strpos(*tmp, '\n'));
-	  stop = 1;
-	  // printf("-coucou-  tmp : %s-       line : %s \n\n", *tmp, *line);fflush(stdout);
-  //exit(0);
+		//		printf("salut\n");
+		*ret = 1;
+		ptr = ft_strchr(*tmp, '\n');
+		if (ptr == NULL)
+		{
+			*line = *tmp;
+			*tmp = NULL;
+		}
+		else
+		{
+			*line = *tmp;
+			*ptr = '\0';
+			*tmp = ft_strdup(ptr + 1);
+		}
 	}
-      else
-	{
-	  //printf("-coucouelse pas trouv tmp = %s-\n\n",*tmp);fflush(stdout);	  
-	  ft_add_line(line, tmp, BUF_SIZE);
-	  *ret = read(*fd, *tmp, BUF_SIZE);
-	  
-	}
-    }
+	return ;
 }
 
-
-int		get_next_line(int const fd, char **line)
+int			get_next_line(const int fd, char **line)
 {
-  long ret;
-  static char *current;
+	int			ret;
+	static char	*current = NULL;
 
-  if (fd < 0 || line == NULL)
-    return (-1);
-
-  ret = BUF_SIZE;
-  (void)ft_read(&fd, line, &current, &ret);
-
-  if (ret != BUF_SIZE && ret > 0)
-    ft_add_line (line, &current, ret - 1);
-  if (ret <= 0)
-    {
-      free(*line);
-      free(current);
-      current = NULL;
-      return (ret);
-    }
-  return (1);
+	if (line == NULL)
+		return (-1);
+	*line = NULL; //a enlever
+	/* 	ret = BUF_SIZE; */
+	ret = ft_read(fd, &current);/* line, &current, &ret); */
+	/* 	ft_putendl(*line); */
+	if (ret < 0)
+		return (-1);
+	ft_truc(line, &current, &ret);
+	/* 	if (ret != BUF_SIZE && ret > 0) */
+	/* 		ft_add_line (line, &current, ret - 1); */
+	/* 	if (ret <= 0) */
+	/* 	{ */
+	/* 		ft_add_line (line, &current, ret - 1); */
+	/* 		ft_putendl(*line); */
+	/* 		free(*line); */
+	/* 		line = NULL; */
+	/* 		free(current); */
+	/* 		current = NULL; */
+	return (ret);
+	/* 	} */
+	/* 	return (1); */
 }
 
 t_env ft_main(t_env *e)
 {
-  int	fd;
-  char	** line;
-  int i;
-  int y;
+	int	fd;
+	char	** line;
+	int i;
+	int y;
 
-  y = 0;
-  ft_count_rows("test");
-  i = 0;
-  fd = open("test", O_RDONLY);
-  e->map = malloc(100);
-  printf("%d\n",i);fflush(stdout);
-  e->mapi = (int **)malloc(sizeof(int *) * 100);
-  if ( fd > 1 )
-    {
-      line = (char **) malloc(2);
-      while (get_next_line (fd, line) > 0)
-    {
+	y = 0;
+	ft_count_rows("test");
+	i = 0;
+	fd = open("test", O_RDONLY);
+	e->map = malloc(100);
+	printf("%d\n",i);fflush(stdout);
+	e->mapi = (int **)malloc(sizeof(int *) * 100);
+	if ( fd > 1 )
+	{
+		line = (char **) malloc(2);
+		while (get_next_line (fd, line) > 0)
+		{
 			/* if (y == 0) */
 			/* { */
 			/* 	e->mapi = (int **)malloc(sizeof(int *) * ft_count_columns(*line)); */
@@ -145,19 +138,22 @@ t_env ft_main(t_env *e)
 			ft_char_to_int(*e, *line, i);
 			printf("--%s--\n",e->map[i]);fflush(stdout);
 			i++;
-    }
-	  e->mapi[i+ 1 ] = NULL;
-	  e->map[i] = NULL;
-	  i = 0;
-    free (line);
-    close(fd);
-}
-  	  while (e->mapi[i])
-	  {
-		  y = 0;
-		  while (e->mapi[i][y] != '\0')
-			  printf("->%d",e->mapi[i][y++]);fflush(stdout);
-		  i++;
-	  }
-return (*e);
+		}
+		e->mapi[i+ 1 ] = NULL;
+		e->map[i] = NULL;
+		i = 0;
+		free (line);
+		close(fd);
+	}
+	//printf("->%d",e->mapi[0][0]);fflush(stdout);
+	//printf("->%d",e->mapi[0][1]);fflush(stdout);
+	//printf("->%d",e->mapi[1][0]);fflush(stdout);
+	while (e->mapi[i] != '\0')
+	{
+		y = 0;
+		while (e->mapi[i][y] != '\0')
+			printf("-------------------------%d-------------------------------",e->mapi[i][y++]);fflush(stdout);
+		i++;
+	}
+	return (*e);
 }
