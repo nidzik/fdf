@@ -6,7 +6,7 @@
 /*   By: nidzik <nidzik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/20 09:35:43 by nidzik            #+#    #+#             */
-/*   Updated: 2015/03/19 15:22:23 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/03/22 16:46:59 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int			get_next_line(const int fd, char **line)
 	/* 	return (1); */
 }
 
-t_env ft_main(t_env *e)
+t_env ft_main(t_env *e, char *file)
 {
 	int	fd;
 	char	** line;
@@ -118,9 +118,9 @@ t_env ft_main(t_env *e)
 	int y;
 
 	y = 0;
-	ft_count_rows("test");
+	ft_count_rows(file);
 	i = 0;
-	fd = open("test", O_RDONLY);
+	fd = open(file, O_RDONLY);
 	e->map = malloc(100);
 	printf("%d\n",i);fflush(stdout);
 	e->mapi = (int **)malloc(sizeof(int *) * 100);
@@ -139,7 +139,7 @@ t_env ft_main(t_env *e)
 			printf("--%s--\n",e->map[i]);fflush(stdout);
 			i++;
 		}
-		e->mapi[i+ 1 ] = NULL;
+		e->mapi[i + 1] = NULL;
 		e->map[i] = NULL;
 		i = 0;
 		free (line);
@@ -148,11 +148,15 @@ t_env ft_main(t_env *e)
 	//printf("->%d",e->mapi[0][0]);fflush(stdout);
 	//printf("->%d",e->mapi[0][1]);fflush(stdout);
 	//printf("->%d",e->mapi[1][0]);fflush(stdout);
-	while (e->mapi[i] != '\0')
+	while (e->mapi[i] != NULL)
 	{
 		y = 0;
-		while (e->mapi[i][y] != '\0')
-			printf("-------------------------%d-------------------------------",e->mapi[i][y++]);fflush(stdout);
+		while (e->mapi[i][y] != '\n' || e->mapi[i][y+1] != 127)
+		{
+			printf("-----%d------",e->mapi[i][y]);fflush(stdout);
+			y++;
+		}
+		ft_putchar('\n');
 		i++;
 	}
 	return (*e);

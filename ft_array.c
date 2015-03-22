@@ -6,7 +6,7 @@
 /*   By: lebijuu <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/15 15:48:44 by lebijuu           #+#    #+#             */
-/*   Updated: 2015/03/19 18:27:44 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/03/20 10:25:52 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void		ft_char_to_int(t_env e, char *str, int i)
 		else
 		{
 			getnb = ft_getnbr(str);
-			if (getnb == 10)
-				ft_putstr("yolo");
+			/* if (getnb == 10) */
+				/* ft_putstr("yolo"); */
 			e.mapi[i][cpt] = getnb;
 			if (getnb >= 10)
 				str++;
@@ -40,6 +40,7 @@ void		ft_char_to_int(t_env e, char *str, int i)
 		/* e.mapi[i][cpt] = '\n'; */
 		/* cpt++; */
 	e.mapi[i][cpt] = '\n';
+	e.mapi[i][cpt + 1] = 127;
 		/* cpt = 0; */
 		/* while (e.mapi[i][cpt]) */
 			/* printf("-> %d ", e.mapi[i][cpt++]); */

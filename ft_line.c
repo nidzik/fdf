@@ -6,7 +6,7 @@
 /*   By: lebijuu <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/14 15:09:44 by lebijuu           #+#    #+#             */
-/*   Updated: 2015/03/19 17:32:20 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/03/22 18:15:53 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,27 +72,24 @@ void		ft_printf_line(t_ctx ctx, t_env e)
 
 		while (i + 1 != stop )
 		{
-		if (ctx.tabp[j + 1])
-		{
-			if (ctx.tabp[j][i].z > 8)
-				color = 0xffffff;
-			else 
-				color = 0xff0000;
-ft_draw_line(ft_transform2d(ctx.tabp[j][i]), ft_transform2d(ctx.tabp[j + 1][i]), &e, color);
-		}
+			if (ctx.tabp[j + 1])
+			{
+				if (ctx.tabp[j][i].z > 8 || ctx.tabp[j + 1][i].z > 8 )
+					color = 0xffffff;
+				else 
+					color = 0xff0000;
+				ft_draw_line(ft_transform2d(ctx.tabp[j][i], e), ft_transform2d(ctx.tabp[j + 1][i], e), &e, color);
+			}
 			printf("print_line : \n j = %d   i = %d   x = %d    y = %d   z = %d    colonne %d\n", j, i, ctx.tabp[j][i].x, ctx.tabp[j][i].y, ctx.tabp[j][i].z, ft_count_columns_int(e.mapi[0]));fflush(stdout);
-			if (ctx.tabp[j][i].z > 8)
+			if (ctx.tabp[j][i].z > 8 || ctx.tabp[j][i + 1].z > 8)
 				color = 0xffffff;
 			else
 				color = 0xff0000;
-			ft_draw_line(ft_transform2d(ctx.tabp[j][i]), ft_transform2d(ctx.tabp[j][i + 1]), &e, color);
-			
+			ft_draw_line(ft_transform2d(ctx.tabp[j][i], e), ft_transform2d(ctx.tabp[j][i + 1], e), &e, color);
 			i++;
-
-		
 		}
 		if (ctx.tabp[j + 1])
-ft_draw_line(ft_transform2d(ctx.tabp[j][i]), ft_transform2d(ctx.tabp[j + 1][i]), &e, color);
+			ft_draw_line(ft_transform2d(ctx.tabp[j][i], e), ft_transform2d(ctx.tabp[j + 1][i], e), &e, color);
 		j++;
 		i = 0;
 	}

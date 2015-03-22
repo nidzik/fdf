@@ -6,7 +6,7 @@
 /*   By: lebijuu <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/13 22:54:54 by lebijuu           #+#    #+#             */
-/*   Updated: 2015/03/19 18:30:29 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/03/22 18:17:36 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,24 +25,24 @@ t_2d		*ft_create2d(int x, int y)
 	return (p);
 }
 
-t_2d ft_transform2d(t_3d p)
+t_2d ft_transform2d(t_3d p, t_env e)
 {
 	t_2d	np;
-	float	factor;
 
-	factor = 0.2;
-	np.x = (p.x * factor * 3) - (p.y * factor * 3) - (p.z / (16 * factor))
+	np.x = (p.x * e.factor * 3) - (p.y * e.factor * 3) - (p.z / (16 * e.factor))
 					 + (WIN_H / 2);
-	np.y = (p.x * factor * 2) + (p.y * factor * 2) - (p.z * (16 * factor)) 
-		- ((WIN_H * factor) - (200 * factor));
+	np.y = (p.x * e.factor * 2) + (p.y * e.factor * 2) - (p.z * (16 * e.factor)) 
+		- ((WIN_H * e.factor) - (1000 * e.factor));
 	return (np);
 }
 
 t_2d	ft_3d_to_2d(t_3d p)
 {
 	t_2d pp;
+	t_env e;
 
-	pp = ft_transform2d(p);
+	e.factor = 0.2;
+	pp = ft_transform2d(p, e);
 	return (pp);
 }
 

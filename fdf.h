@@ -6,7 +6,7 @@
 /*   By: nidzik  <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/11 11:56:31 by nidzik            #+#    #+#             */
-/*   Updated: 2015/03/19 10:19:31 by bbichero         ###   ########.fr       */
+/*   Updated: 2015/03/22 18:17:46 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ typedef struct	s_env
 	int		height;
 	char	**map;
 	int		**mapi;
+	char	*filename;
+	float		factor;
 }				t_env;
 
 typedef struct s_win
@@ -79,14 +81,14 @@ void    ft_draw_line(t_2d p0, t_2d p1, t_env *e, int color);
 t_3d	ft_create_3d_point_from_2d(t_2d pdx, int z);
 t_3d	*ft_create3d(int x, int y, int z);
 void	ft_print2d(t_2d p, unsigned int color, t_env *e);
-t_2d	ft_transform2d(t_3d p);
+t_2d	ft_transform2d(t_3d p, t_env e);
 t_2d	*ft_create2d(int x, int y);
 int     ft_count_columns(char *str);
 int     ft_count_columns_int(int *str);
 int		ft_count_rows(char *name);
 void    draw(t_env e);
 int     expose_hook(t_env *e);
-t_env	ft_main(t_env *e);
+t_env	ft_main(t_env *e, char *file);
 int     get_next_line(int const fd, char **line);
 static int	ft_read(int fd, char **tmp);
 void    ft_add_line(char **line, char **tmp, long len);
