@@ -1,0 +1,8 @@
+#1 a tester avec le fichier test inclu
+#2 je dois encore faire un trie du tableau donné en parametre la c'est le bordel 
+#3 amusez vous bien :3
+
+ps compiler avec libft/libft.a
+
+
+gcc -g -o fdf -O2 *.c -L libft/ -lft -L/usr/lib/X11/ -lmlx -L/usr/lib/X11 -lXext -lX11 -lm
