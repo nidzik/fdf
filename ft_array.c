@@ -6,20 +6,44 @@
 /*   By: lebijuu <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/15 15:48:44 by lebijuu           #+#    #+#             */
-/*   Updated: 2015/03/20 10:25:52 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/03/26 16:24:01 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
+int		ft_len(char *str)
+{
+	int	len;
+	int	i;
+	int l;
+
+	l = 0;
+	i = 0;
+	len = 0;
+	while (str[i])
+	{
+		if (str[i] == ' ' && l == 1)
+			l = 0;
+		if (str[i] != ' ' && l == 0)
+		{
+			len++;
+			l = 1;
+		}
+		i++;
+	}
+	return (len);
+}
+
 void		ft_char_to_int(t_env e, char *str, int i)
 {
-	int		cpt;
-	int getnb;
+	int	cpt;
+	int 	getnb;
 
 	getnb = 0;
-	cpt = 0;
+	cpt = 1;
 	e.mapi[i] = (int *)malloc(sizeof(int) * ft_strlen(str));
+	e.mapi[i][0] = ft_len(str);
 	while (*str)
 	{
 		if (*str == ' ')
@@ -27,26 +51,16 @@ void		ft_char_to_int(t_env e, char *str, int i)
 		else
 		{
 			getnb = ft_getnbr(str);
-			/* if (getnb == 10) */
-				/* ft_putstr("yolo"); */
 			e.mapi[i][cpt] = getnb;
 			if (getnb >= 10)
 				str++;
-		printf("!!! %d !!!\n", e.mapi[i][cpt]);
 		cpt++;
 		str++;
 		}
 	}
-		/* e.mapi[i][cpt] = '\n'; */
-		/* cpt++; */
-	e.mapi[i][cpt] = '\n';
-	e.mapi[i][cpt + 1] = 127;
-		/* cpt = 0; */
-		/* while (e.mapi[i][cpt]) */
-			/* printf("-> %d ", e.mapi[i][cpt++]); */
 }
 
-int			ft_getnbr(char *str)
+int	ft_getnbr(char *str)
 {
 	int sign;
 	int res;
@@ -62,11 +76,9 @@ int			ft_getnbr(char *str)
 	}
 	while (((*str > 47) && (*str < 58)))
 	{
-		printf("coucou");fflush(stdout);
 		res = (res * 10) + *str - 48;
 		str++;
 	}
 	res = res * sign;
-	ft_putnbr(res);
 	return (res );
 }

@@ -6,7 +6,7 @@
 /*   By: nidzik <nidzik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/13 11:52:27 by nidzik            #+#    #+#             */
-/*   Updated: 2015/03/22 17:29:44 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/03/26 16:34:02 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,10 @@ int			ft_count_columns(char *str)
 
 int         ft_count_columns_int(int *str)
 {
-    int     c;
+	int     c;
 
-    c = 0;
-	/* printf("**%d", 5656565);fflush(stdout); */
-    while ( str[c] != '\n')// && str[c + 1] != 127)
-    {
-        c++;
-    }
+	c = 1;
+	while (c <= str[0] + 1)
+		c++;
     return (c);
 }

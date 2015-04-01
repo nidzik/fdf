@@ -6,7 +6,7 @@
 /*   By: nidzik <nidzik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/20 09:35:43 by nidzik            #+#    #+#             */
-/*   Updated: 2015/03/22 16:46:59 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/03/27 12:03:02 by romontei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ static char *ft_get_join(char *s1, char *s2)
 	if (!dst)
 		return ((char *)0);
 	ft_strcpy(dst, s1);
-	/* 	free(s1); */
-
 	ft_strcat(dst, s2);
 	return (dst);
 }
@@ -44,10 +42,7 @@ static int		ft_read(int fd, char **tmp)
 	while ((ret = read(fd, buf, BUF_SIZE)) > 0)
 	{
 		*tmp = ft_get_join(*tmp, buf);
-
-		/* 		*tmp = ft_strjoin(*tmp == NULL ? "" : *tmp, buf); */
-		//	printf("     (%s)\n", *tmp);
-		if (*tmp == NULL) //verif malloc
+		if (*tmp == NULL)
 			return (-1);
 		if (ft_strchr(*tmp, '\n') != NULL)
 			break ;
@@ -56,14 +51,12 @@ static int		ft_read(int fd, char **tmp)
 	return (ret <= 0 ? ret : 1);
 }
 
-static void	ft_truc(char **line, char **tmp, int *ret) //line est vide, //tmp contient mes trucs
+static void	ft_truc(char **line, char **tmp, int *ret)
 {
 	char	*ptr;
 
-	//	printf("[%s]\n", *tmp);
 	if (*tmp != NULL && ft_strlen(*tmp) > 0)
 	{
-		//		printf("salut\n");
 		*ret = 1;
 		ptr = ft_strchr(*tmp, '\n');
 		if (ptr == NULL)
@@ -88,76 +81,42 @@ int			get_next_line(const int fd, char **line)
 
 	if (line == NULL)
 		return (-1);
-	*line = NULL; //a enlever
-	/* 	ret = BUF_SIZE; */
-	ret = ft_read(fd, &current);/* line, &current, &ret); */
-	/* 	ft_putendl(*line); */
+	*line = NULL;
+	ret = ft_read(fd, &current);
 	if (ret < 0)
 		return (-1);
 	ft_truc(line, &current, &ret);
-	/* 	if (ret != BUF_SIZE && ret > 0) */
-	/* 		ft_add_line (line, &current, ret - 1); */
-	/* 	if (ret <= 0) */
-	/* 	{ */
-	/* 		ft_add_line (line, &current, ret - 1); */
-	/* 		ft_putendl(*line); */
-	/* 		free(*line); */
-	/* 		line = NULL; */
-	/* 		free(current); */
-	/* 		current = NULL; */
 	return (ret);
-	/* 	} */
-	/* 	return (1); */
 }
 
-t_env ft_main(t_env *e, char *file)
+t_env		ft_main(t_env *e, char *file)
 {
 	int	fd;
 	char	** line;
-	int i;
-	int y;
+	int	i;
+	int	y;
 
-	y = 0;
 	ft_count_rows(file);
-	i = 0;
+	i = 1;
 	fd = open(file, O_RDONLY);
-	e->map = malloc(100);
-	printf("%d\n",i);fflush(stdout);
-	e->mapi = (int **)malloc(sizeof(int *) * 100);
-	if ( fd > 1 )
+	e->map = (char **)malloc(sizeof(char *) * ft_count_rows(e->filename) + 1);
+	e->mapi = (int **)malloc(sizeof(int *) * ft_count_rows(e->filename) + 1);
+	if (fd > 1)
 	{
-		line = (char **) malloc(2);
+		line = (char **) malloc(sizeof(char *) * ft_count_rows(e->filename) + 1);
 		while (get_next_line (fd, line) > 0)
 		{
-			/* if (y == 0) */
-			/* { */
-			/* 	e->mapi = (int **)malloc(sizeof(int *) * ft_count_columns(*line)); */
-			/* 	y++; */
-			/* } */
+			e->map[i] = (char *)malloc(sizeof(char) * (ft_strlen(*line) / 2));
 			e->map[i] = *line;
 			ft_char_to_int(*e, *line, i);
-			printf("--%s--\n",e->map[i]);fflush(stdout);
 			i++;
 		}
-		e->mapi[i + 1] = NULL;
+		e->mapi[i] = NULL;
 		e->map[i] = NULL;
-		i = 0;
+		i = 1;
 		free (line);
+		free(e->map);
 		close(fd);
-	}
-	//printf("->%d",e->mapi[0][0]);fflush(stdout);
-	//printf("->%d",e->mapi[0][1]);fflush(stdout);
-	//printf("->%d",e->mapi[1][0]);fflush(stdout);
-	while (e->mapi[i] != NULL)
-	{
-		y = 0;
-		while (e->mapi[i][y] != '\n' || e->mapi[i][y+1] != 127)
-		{
-			printf("-----%d------",e->mapi[i][y]);fflush(stdout);
-			y++;
-		}
-		ft_putchar('\n');
-		i++;
 	}
 	return (*e);
 }
