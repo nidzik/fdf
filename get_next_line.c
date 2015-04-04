@@ -6,7 +6,7 @@
 /*   By: nidzik <nidzik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/20 09:35:43 by nidzik            #+#    #+#             */
-/*   Updated: 2015/03/27 12:03:02 by romontei         ###   ########.fr       */
+/*   Updated: 2015/04/01 18:16:09 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,9 @@ t_env		ft_main(t_env *e, char *file)
 		e->map[i] = NULL;
 		i = 1;
 		free (line);
-		free(e->map);
+		/* free(e->map); */
 		close(fd);
+		ft_min_max(e);
 	}
 	return (*e);
 }

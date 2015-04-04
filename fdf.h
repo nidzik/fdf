@@ -6,7 +6,7 @@
 /*   By: nidzik  <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/11 11:56:31 by nidzik            #+#    #+#             */
-/*   Updated: 2015/03/22 18:17:46 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/04/02 09:23:43 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
  
@@ -33,7 +33,10 @@ typedef struct	s_env
 	char	**map;
 	int		**mapi;
 	char	*filename;
-	float		factor;
+	float	factor;
+	int		max;
+	int		min;
+	int		red[11];
 }				t_env;
 
 typedef struct s_win
@@ -73,11 +76,13 @@ typedef struct	s_ctx
 }				t_ctx;
 
 /* void	stock_map(char *str); */
-void        ft_printf_line(t_ctx ctx, t_env e);
-void	ft_stock_mapi(t_ctx ctx, t_env e);
+int		ft_color(t_env e, t_3d p0, t_3d p1, int iteration);
+void	ft_min_max(t_env *e);
+void	ft_printf_line(t_ctx ctx, t_env e);
+void	ft_stock_mapi(t_ctx ctx);
 int     ft_getnbr(char *str);
 void    ft_char_to_int(t_env e, char *str, int i);
-void    ft_draw_line(t_2d p0, t_2d p1, t_env *e, int color);
+void    ft_draw_line(t_3d p0, t_3d p1, t_env *e, int color);
 t_3d	ft_create_3d_point_from_2d(t_2d pdx, int z);
 t_3d	*ft_create3d(int x, int y, int z);
 void	ft_print2d(t_2d p, unsigned int color, t_env *e);

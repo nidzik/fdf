@@ -6,7 +6,7 @@
 /*   By: lebijuu <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/15 15:48:44 by lebijuu           #+#    #+#             */
-/*   Updated: 2015/03/26 16:24:01 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/04/01 18:19:59 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,28 @@ int	ft_getnbr(char *str)
 	}
 	res = res * sign;
 	return (res );
+}
+
+void		ft_min_max(t_env *e)
+{
+	int i;
+	int j;
+
+	i = 1;
+	e->max = e->mapi[1][1];
+	e->min = e->mapi[1][1];
+	while (e->mapi[i] != NULL) 
+	{
+		j = 1;
+		while (j != e->mapi[i][0])
+		{
+			if (e->mapi[i][j] > e->max)
+					e->max = e->mapi[i][j];
+			if (e->mapi[i][j] < e->min)
+				e->min = e->mapi[i][j];
+			printf("min : %d, max : %d \n",e->min, e->max);fflush(stdout);
+			j++;
+		}
+		i++;
+	}	
 }
