@@ -6,7 +6,7 @@
 /*   By: nidzik  <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/11 11:56:31 by nidzik            #+#    #+#             */
-/*   Updated: 2015/04/02 09:23:43 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/04/07 17:45:22 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
  
@@ -76,7 +76,7 @@ typedef struct	s_ctx
 }				t_ctx;
 
 /* void	stock_map(char *str); */
-int		ft_color(t_env e, t_3d p0, t_3d p1, int iteration);
+int		ft_color(t_env e, t_3d p0, t_3d p1);
 void	ft_min_max(t_env *e);
 void	ft_printf_line(t_ctx ctx, t_env e);
 void	ft_stock_mapi(t_ctx ctx);

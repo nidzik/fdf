@@ -6,7 +6,7 @@
 /*   By: lebijuu <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/14 15:09:44 by lebijuu           #+#    #+#             */
-/*   Updated: 2015/04/02 11:05:24 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/04/07 18:34:04 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,14 @@ void			ft_draw_line(t_3d p2, t_3d p3, t_env *e, int color)
 	double		b;
 	t_2d p0;
 	t_2d p1;
+	int ite_max;
+	int cpt;
+	int nb_pix;
+	int z_min;
+	double fac;
+	int color_min;
+
+	cpt = 0;
 	p0 = ft_transform2d(p2, *e);
 	p1 = ft_transform2d(p3, *e);
 	l.dx = p1.x - p0.x;
@@ -33,6 +41,15 @@ void			ft_draw_line(t_3d p2, t_3d p3, t_env *e, int color)
 	l.dy /= iterations;
 	a = p0.x;
 	b = p0.y;
+	ite_max = i;
+	color = ft_color(*e, p2, p3);
+	
+	z_min = (p2.z < p3.z) ? p2.z : p3.z;
+	fac = ((double)z_min / (double)e->max) * 10 ;
+	color_min = (int)fac;
+	printf("%d %d ",color_min , color);
+	if (color_min - color != 0)
+		nb_pix = (int)ceil((ite_max / (color - color_min)));
 	while (i--)
 	{
 	e->red[0] = 11;
@@ -47,25 +64,30 @@ void			ft_draw_line(t_3d p2, t_3d p3, t_env *e, int color)
 	e->red[9] = 0xE12E04;
 	e->red[10] = 0xE01F05;
 	e->red[11] = 0xE01106;
-
-		color = e->red[ft_color(*e, p2, p3, i - 1)];
-		//ft_putnbr(color);
-		//ft_putchar('\n');
-		a = a + l.dx;
-		b += l.dy;
-		mlx_pixel_put(e->mlx, e->win, (int)a, b, color);
+	
+	if (cpt == nb_pix && p2.z != p3.z)
+	{
+		color--;
+		cpt = 0;
+	}
+	cpt++;
+	//ft_putnbr(color);
+	//ft_putchar('\n');
+	a = a + l.dx;
+	b += l.dy;
+	mlx_pixel_put(e->mlx, e->win, (int)a, b, e->red[color]);
 	}
 }
 
-int			ft_color(t_env e, t_3d p0, t_3d p1, int iteration)
+int			ft_color(t_env e, t_3d p0, t_3d p1)
 {
 	int color;
-	int factor;
+	int z_max;
 	int i;
 	int cpt;
-	char *test;
+	double fac;
 
-	test = "0xE5A500";
+	color = 0;
 	e.red[0] = 11;
 	e.red[1] = 0xE5A500;
 	e.red[2] = 0xE49600;
@@ -78,30 +100,12 @@ int			ft_color(t_env e, t_3d p0, t_3d p1, int iteration)
 	e.red[9] = 0xE12E04;
 	e.red[10] = 0xE01F05;
 	e.red[11] = 0xE01106;
-	//ft_putnbr(e.red[1]);
 	cpt = 0;
 	i = 0;
-	factor = (p0.z > p1.z) ? p0.z : p1.z;
-	if (factor == 0)
-		return (1);
-	else if (p0.z == e.max && p1.z == e.max)
-		return (11);
-	//{
-		factor = e.max / factor;
-	color = e.red[0] / factor;
-	//while (i < e.red[0]/factor)
-	//{
-//		if 
-	cpt = (e.red[0] / factor) + 1;
-	color =  (iteration / color);
-	printf("cpt =  %d  iteration %d / e.red[0] %d / factor %d  = %d\n",cpt, iteration, e.red[0], factor, color);
-
-
-	//}
-//}
-	//else
-	//return (1);
-
+	z_max = (p0.z > p1.z) ? p0.z : p1.z;
+	fac = ((double)z_max / (double)e.max) * 10 ;
+	color = (int)fac;
+	printf("e.red[0] %d / z_max %d / e.max %d   = %lf\n", e.red[0], z_max, e.max, fac);
 	if (color <= 0)
 		return (1);
 	return(color);

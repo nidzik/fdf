@@ -6,7 +6,7 @@
 /*   By: nidzik  <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/11 11:32:57 by nidzik            #+#    #+#             */
-/*   Updated: 2015/03/27 12:54:35 by romontei         ###   ########.fr       */
+/*   Updated: 2015/04/07 18:43:17 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void		draw(t_env e)
 	t_ctx	ctx;
 	int	space;
 
+	ft_min_max(&e);
 	ctx.i = 1;
 	ctx.j = 1;
 	ctx.y = 50;
@@ -115,7 +116,7 @@ int		main(int ac, char **av)
 	t_env e;
 	(void)ac;
 	e.filename = av[1];
-	e.factor = 0.2;
+	e.factor = 0.3;
 	e = ft_main(&e, av[1]);
 	e.width = 1200;
 	e.height = 900;
