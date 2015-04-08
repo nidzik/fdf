@@ -6,7 +6,7 @@
 /*   By: lebijuu <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/14 15:09:44 by lebijuu           #+#    #+#             */
-/*   Updated: 2015/04/07 18:34:04 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/04/08 07:25:35 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,16 @@ void			ft_draw_line(t_3d p2, t_3d p3, t_env *e, int color)
 	z_min = (p2.z < p3.z) ? p2.z : p3.z;
 	fac = ((double)z_min / (double)e->max) * 10 ;
 	color_min = (int)fac;
-	printf("%d %d ",color_min , color);
-	if (color_min - color != 0)
-		nb_pix = (int)ceil((ite_max / (color - color_min)));
+	printf("%d %d %d ",ite_max, color_min , color);
+	if (color - abs(color_min) != 0)
+		nb_pix = (int)ceil((ite_max / (color - abs(color_min))));
+	/* else */
+		/* color = 2; */
 	while (i--)
 	{
 	e->red[0] = 11;
-	e->red[1] = 0xE5A500;
+	e->red[1] = 0xFFFFFF;
+	/* e->red[1] = 0xE5A500; */
 	e->red[2] = 0xE49600;
 	e->red[3] = 0xE48701;
 	e->red[4] = 0xE37801;
@@ -64,12 +67,13 @@ void			ft_draw_line(t_3d p2, t_3d p3, t_env *e, int color)
 	e->red[9] = 0xE12E04;
 	e->red[10] = 0xE01F05;
 	e->red[11] = 0xE01106;
-	
 	if (cpt == nb_pix && p2.z != p3.z)
 	{
 		color--;
 		cpt = 0;
 	}
+	/* if (color == 0) */
+		/* color = 1; */
 	cpt++;
 	//ft_putnbr(color);
 	//ft_putchar('\n');
@@ -84,30 +88,17 @@ int			ft_color(t_env e, t_3d p0, t_3d p1)
 	int color;
 	int z_max;
 	int i;
-	int cpt;
 	double fac;
 
-	color = 0;
-	e.red[0] = 11;
-	e.red[1] = 0xE5A500;
-	e.red[2] = 0xE49600;
-	e.red[3] = 0xE48701;
-	e.red[4] = 0xE37801;
-	e.red[5] = 0xE36902;
-	e.red[6] = 0xE25B03;
-	e.red[7] = 0xE24C03;
-	e.red[8] = 0xE13D04;
-	e.red[9] = 0xE12E04;
-	e.red[10] = 0xE01F05;
-	e.red[11] = 0xE01106;
-	cpt = 0;
 	i = 0;
 	z_max = (p0.z > p1.z) ? p0.z : p1.z;
-	fac = ((double)z_max / (double)e.max) * 10 ;
+	fac = (((double)abs(z_max) + (double)abs(e.min) )/ ((double)abs(e.max)  + (double)abs(e.min))) * 10 ;
 	color = (int)fac;
 	printf("e.red[0] %d / z_max %d / e.max %d   = %lf\n", e.red[0], z_max, e.max, fac);
-	if (color <= 0)
+	if (color == 0)
 		return (1);
+	/* else if (color < 0) */
+		/* return color  */
 	return(color);
 }
 void		ft_stock_mapi(t_ctx ctx)
