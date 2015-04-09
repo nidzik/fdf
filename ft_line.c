@@ -6,7 +6,7 @@
 /*   By: lebijuu <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/14 15:09:44 by lebijuu           #+#    #+#             */
-/*   Updated: 2015/04/08 07:25:35 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/04/09 09:46:20 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void			ft_draw_line(t_3d p2, t_3d p3, t_env *e, int color)
 	int z_min;
 	double fac;
 	int color_min;
-
+	int real_color;
 	cpt = 0;
 	p0 = ft_transform2d(p2, *e);
 	p1 = ft_transform2d(p3, *e);
@@ -45,13 +45,22 @@ void			ft_draw_line(t_3d p2, t_3d p3, t_env *e, int color)
 	color = ft_color(*e, p2, p3);
 	
 	z_min = (p2.z < p3.z) ? p2.z : p3.z;
-	fac = ((double)z_min / (double)e->max) * 10 ;
+	/* if (z_min != 0) */
+		/* fac = ((double)z_min / (double)abs(e->min)) * 10 ; */
+	/* fac = (double)abs(e->min) / (double)abs(z_min); */
+	/* else if (z_min == 0) */
+	/* fac = ((abs(e->min) + z_min) / ((e->max - e->min)/10)); */
+	fac = (((double)abs(z_min) + (double)(e->max) )/ ((double)abs(e->min)  + (double)abs(e->max)))*10 ;
 	color_min = (int)fac;
-	printf("%d %d %d ",ite_max, color_min , color);
+	if (z_min == e->min)// || color_min <= 0 || color_min > 11)
+		color_min = 1;
+	printf("itemax : %d color min : %d color :%d e->min : %d  zmin:%d",ite_max, color_min , color, e->min, z_min);
 	if (color - abs(color_min) != 0)
 		nb_pix = (int)ceil((ite_max / (color - abs(color_min))));
-	/* else */
-		/* color = 2; */
+	if (z_min == p3.z)
+		real_color = color;
+	else if (z_min == p2.z)
+		real_color = color_min;
 	while (i--)
 	{
 	e->red[0] = 11;
@@ -67,19 +76,20 @@ void			ft_draw_line(t_3d p2, t_3d p3, t_env *e, int color)
 	e->red[9] = 0xE12E04;
 	e->red[10] = 0xE01F05;
 	e->red[11] = 0xE01106;
-	if (cpt == nb_pix && p2.z != p3.z)
+	if (z_min == p2.z && cpt == nb_pix && p2.z != p3.z)
 	{
-		color--;
+		real_color++;
 		cpt = 0;
 	}
-	/* if (color == 0) */
-		/* color = 1; */
+	else if (cpt == nb_pix && p2.z != p3.z && z_min == p3.z)
+	{
+		real_color--;
+		cpt = 0;
+	}
 	cpt++;
-	//ft_putnbr(color);
-	//ft_putchar('\n');
 	a = a + l.dx;
 	b += l.dy;
-	mlx_pixel_put(e->mlx, e->win, (int)a, b, e->red[color]);
+	mlx_pixel_put(e->mlx, e->win, (int)a, b, e->red[real_color]);
 	}
 }
 
@@ -92,10 +102,11 @@ int			ft_color(t_env e, t_3d p0, t_3d p1)
 
 	i = 0;
 	z_max = (p0.z > p1.z) ? p0.z : p1.z;
-	fac = (((double)abs(z_max) + (double)abs(e.min) )/ ((double)abs(e.max)  + (double)abs(e.min))) * 10 ;
+	/* fac = (    (double) ((double)abs(e.max) + (double)z_max)    /     (double)(    ((double)e.max - (double)e.min)  / 10)     ); */
+	fac = (((double)(z_max) - (double)(e.min) )/ ((double)abs(e.max)  + (double)abs(e.min))) * 10 ;
 	color = (int)fac;
-	printf("e.red[0] %d / z_max %d / e.max %d   = %lf\n", e.red[0], z_max, e.max, fac);
-	if (color == 0)
+	printf("    z_max %d   /   e.max %d   = %lf\n", z_max, e.max, fac);
+	if (color <= 0 || color > 11)
 		return (1);
 	/* else if (color < 0) */
 		/* return color  */

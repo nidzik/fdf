@@ -6,7 +6,7 @@
 /*   By: lebijuu <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/15 15:48:44 by lebijuu           #+#    #+#             */
-/*   Updated: 2015/04/01 18:19:59 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/04/09 08:19:53 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,10 @@ void		ft_char_to_int(t_env e, char *str, int i)
 			e.mapi[i][cpt] = getnb;
 			if (getnb >= 10)
 				str++;
+			else if (getnb < 0 && getnb > -10)
+				str++;
+			else if (getnb <= -10)
+				str+=2;
 		cpt++;
 		str++;
 		}
@@ -94,7 +98,7 @@ void		ft_min_max(t_env *e)
 	while (e->mapi[i] != NULL) 
 	{
 		j = 1;
-		while (j != e->mapi[i][0])
+		while (j <= e->mapi[i][0])
 		{
 			if (e->mapi[i][j] > e->max)
 					e->max = e->mapi[i][j];

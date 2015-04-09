@@ -6,7 +6,7 @@
 /*   By: nidzik  <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/11 11:32:57 by nidzik            #+#    #+#             */
-/*   Updated: 2015/04/07 18:43:17 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/04/08 18:40:26 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int ft_test(t_env *e, int keycode)
 	while (e->mapi[i] != NULL)
 	{
 		y = 1;
-		while (e->mapi[i][0] >= (y + 1))
+		while (y <= e->mapi[i][0])
 		{
 			if (e->mapi[i][y] != 0)
 			{

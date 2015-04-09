@@ -6,7 +6,7 @@
 /*   By: nidzik <nidzik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/04 15:27:34 by nidzik            #+#    #+#             */
-/*   Updated: 2014/12/17 12:47:01 by nidzik           ###   ########.fr       */
+/*   Updated: 2015/04/08 19:32:05 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <fcntl.h>
 #include <stdio.h>
 
-# define BUF_SIZE 2
+# define BUF_SIZE 2000
 
 typedef struct		s_list
 {
