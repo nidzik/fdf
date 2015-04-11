@@ -6,7 +6,7 @@
 /*   By: bbichero <bbichero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/09 12:08:16 by bbichero          #+#    #+#             */
-/*   Updated: 2015/04/10 18:23:29 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/04/11 15:01:01 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,21 +38,21 @@ void		draw(t_env *e, t_ctx *ctx)
 int			key_hook(int keycode, t_env *e, t_ctx *ctx)
 {
 	printf("key : %d\n", keycode);
-//	if (keycode == 65307)
-	if (keycode == 53)
+	if (keycode == 65307)
+//	if (keycode == 53)
 		exit(0);
-//	if (keycode == 65362 || keycode == 65364)
-	if (keycode == 126 || keycode == 125)
+	if (keycode == 65362 || keycode == 65364)
+//	if (keycode == 126 || keycode == 125)
 		ft_test(e, keycode, ctx);
-//	if (keycode == 119)
-	if (keycode == 12)
+	if (keycode == 119)
+//	if (keycode == 12)
 	{
 		e->factor += 0.01;
 		mlx_clear_window(e->mlx, e->win);
 		draw(e, ctx);
 	}
-//	if (keycode == 113)
-	if (keycode == 13)
+	if (keycode == 113)
+//	if (keycode == 13)
 	{
 		e->factor -= 0.01;
 		mlx_clear_window(e->mlx, e->win);
@@ -92,6 +92,7 @@ int			ft_test(t_env *e, int keycode, t_ctx *ctx)
 		i++;
 	}
 	mlx_clear_window(e->mlx, e->win);
+	
 	draw(e, ctx);
 	return (0);
 }
@@ -101,14 +102,18 @@ int			main(int ac, char **av)
 	t_env	e;
 	t_ctx	ctx;
 
-	if (ft_argv(ac, av, e) == 0)
+	e.w = ac;
+	e = ft_argv(ac, av, e);
+	if (e.error == 1)
 		return (0);
+	ft_putnbr(e.r);
 	e.filename = av[1];
 	e.factor = 0.2;
 	ft_init_ftmain(&e);
-	printf("%#08x \n",e.palette[254]);
 	e = ft_main(&e, av[1]);
-	ft_palette(&e,av);
+	if (e.error == 1)
+		return (0);
+//	ft_palette(&e,av);
 	e.width = 1200;
 	e.height = 900;
 	e.mlx = mlx_init();

@@ -6,7 +6,7 @@
 /*   By: lebijuu <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/14 15:09:44 by lebijuu           #+#    #+#             */
-/*   Updated: 2015/04/11 11:45:56 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/04/11 13:44:27 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,6 @@ void		ft_draw_line(t_3d p2, t_3d p3, t_env *e, int color)
 
 t_color		ft_degrader(t_color c, t_env *e, t_3d p2, t_3d p3)
 {
-	e->red[0] = 11;
-	e->red[1] = 0xE5A500;
-	e->red[2] = 0xE49600;
-	e->red[3] = 0xE48701;
-	e->red[4] = 0xE37801;
-	e->red[5] = 0xE36902;
-	e->red[6] = 0xE25B03;
-	e->red[7] = 0xE24C03;
-	e->red[8] = 0xE13D04;
-	e->red[9] = 0xE12E04;
-	e->red[10] = 0xE01F05;
-	e->red[11] = 0xE01106;
-	c.cpt = 0;
 	if (c.nb_pix == 0)
 		c.cpt++;
 	else if (c.z_min == p2.z && c.cpt == c.nb_pix && p2.z != p3.z)
@@ -75,6 +62,7 @@ t_color		ft_degrader(t_color c, t_env *e, t_3d p2, t_3d p3)
 
 t_color		ft_color_min(t_env *e, t_color c, int color, t_3d p2, t_3d p3)
 {
+	c.cpt = 0;
 	c.z_min = (p2.z < p3.z) ? p2.z : p3.z;
 	c.fac = (((double)(c.z_min) + (double)abs(e->min))/ ((double)abs(e->min)
 				+ (double)abs(e->max))) * 255;

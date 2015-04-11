@@ -6,7 +6,7 @@
 /*   By: nidzik <nidzik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/20 09:35:43 by nidzik            #+#    #+#             */
-/*   Updated: 2015/04/09 12:02:58 by bbichero         ###   ########.fr       */
+/*   Updated: 2015/04/11 13:37:59 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ t_env			ft_main(t_env *e, char *file)
 	ft_count_rows(file);
 	i = 1;
 	fd = open(file, O_RDONLY);
+	e = ft_error_gnl(e, fd);
 	if (fd > 1)
 	{
 		line = (char **)malloc(sizeof(char *) * ft_count_rows(e->filename) + 1);

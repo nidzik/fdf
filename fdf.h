@@ -6,7 +6,7 @@
 /*   By: nidzik  <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/11 11:56:31 by nidzik            #+#    #+#             */
-/*   Updated: 2015/04/10 16:59:53 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/04/11 15:02:12 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct	s_env
 	int		g;
 	int		b;
 	int		w;
+	int		error;
 }				t_env;
 
 typedef struct	s_win
@@ -133,9 +134,9 @@ void			ft_draw_loop(t_env e, t_ctx *ctx);
 void			ft_init_ftmain(t_env *e);
 int				key_hook(int keycode, t_env *e, t_ctx *ctx);
 int				ft_test(t_env *e, int keycode, t_ctx *ctx);
-t_env			*ft_palette(t_env *e, char **av);
-int				ft_argv(int agc, char **agv, t_env e);
-
+t_env			*ft_palette(t_env *e);
+t_env			ft_argv(int agc, char **agv, t_env e);
+t_env			*ft_error_gnl(t_env *e, int err);
 
 
 #endif
