@@ -6,7 +6,7 @@
 /*   By: nidzik <nidzik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/12 12:41:45 by nidzik            #+#    #+#             */
-/*   Updated: 2014/12/17 12:41:04 by nidzik           ###   ########.fr       */
+/*   Updated: 2015/04/11 10:52:25 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void		ft_striter(char *s, void (*f)(char *))
 	int		i;
 
 	i = 0;
-	f = f;
 	if (s != NULL && f != NULL)
 	{
 		while (s[i])
