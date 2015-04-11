@@ -6,66 +6,49 @@
 /*   By: lebijuu <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/14 15:09:44 by lebijuu           #+#    #+#             */
-/*   Updated: 2015/04/09 09:46:20 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/04/10 18:28:10 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void			ft_draw_line(t_3d p2, t_3d p3, t_env *e, int color)
+void		ft_draw_line(t_3d p2, t_3d p3, t_env *e, int color)
 {
-	t_line		l;
-	double		iterations;
-	int		i;
-	double		a;
-	double		b;
-	t_2d p0;
-	t_2d p1;
-	int ite_max;
-	int cpt;
-	int nb_pix;
-	int z_min;
-	double fac;
-	int color_min;
-	int real_color;
-	cpt = 0;
-	p0 = ft_transform2d(p2, *e);
-	p1 = ft_transform2d(p3, *e);
-	l.dx = p1.x - p0.x;
-	l.dy = p1.y - p0.y;
+	t_color	c;
+	t_line	l;
+
+	c.cpt = 0;
+	c.p0 = ft_transform2d(p2, *e);
+	c.p1 = ft_transform2d(p3, *e);
+	l.dx = c.p1.x - c.p0.x;
+	l.dy = c.p1.y - c.p0.y;
 	l.size = sqrt(l.dx * l.dx + l.dy * l.dy);
-	iterations = ceil(l.size);
-	i = (int)iterations;
-	mlx_pixel_put(e->mlx, e->win, p0.x, p0.y, color);
-	l.dx /= iterations;
-	l.dy /= iterations;
-	a = p0.x;
-	b = p0.y;
-	ite_max = i;
+	c.iterations = ceil(l.size);
+	c.i = (int)c.iterations;
+	//	mlx_pixel_put(e->mlx, e->win, c.p0.x, c.p0.y, color);
+	l.dx /= c.iterations;
+	l.dy /= c.iterations;
+	c.a = c.p0.x;
+	c.b = c.p0.y;
+	c.ite_max = c.i;
 	color = ft_color(*e, p2, p3);
-	
-	z_min = (p2.z < p3.z) ? p2.z : p3.z;
-	/* if (z_min != 0) */
-		/* fac = ((double)z_min / (double)abs(e->min)) * 10 ; */
-	/* fac = (double)abs(e->min) / (double)abs(z_min); */
-	/* else if (z_min == 0) */
-	/* fac = ((abs(e->min) + z_min) / ((e->max - e->min)/10)); */
-	fac = (((double)abs(z_min) + (double)(e->max) )/ ((double)abs(e->min)  + (double)abs(e->max)))*10 ;
-	color_min = (int)fac;
-	if (z_min == e->min)// || color_min <= 0 || color_min > 11)
-		color_min = 1;
-	printf("itemax : %d color min : %d color :%d e->min : %d  zmin:%d",ite_max, color_min , color, e->min, z_min);
-	if (color - abs(color_min) != 0)
-		nb_pix = (int)ceil((ite_max / (color - abs(color_min))));
-	if (z_min == p3.z)
-		real_color = color;
-	else if (z_min == p2.z)
-		real_color = color_min;
-	while (i--)
+	c = ft_color_min(e, c, color, p2, p3);
+//	e = ft_palette(e, av);
+	/* printf("%d     %d\n",c.real_color, c.pass); */
+	while (c.i--)
 	{
+		c = ft_degrader(c, e, p2, p3);
+		c.a = c.a + l.dx;
+		c.b += l.dy;
+		//printf("%#08x \n",e->palette[254]);		
+		mlx_pixel_put(e->mlx, e->win, c.a, c.b, e->palette[c.real_color]);
+	}
+}
+
+t_color		ft_degrader(t_color c, t_env *e, t_3d p2, t_3d p3)
+{
 	e->red[0] = 11;
-	e->red[1] = 0xFFFFFF;
-	/* e->red[1] = 0xE5A500; */
+	e->red[1] = 0xE5A500;
 	e->red[2] = 0xE49600;
 	e->red[3] = 0xE48701;
 	e->red[4] = 0xE37801;
@@ -76,40 +59,66 @@ void			ft_draw_line(t_3d p2, t_3d p3, t_env *e, int color)
 	e->red[9] = 0xE12E04;
 	e->red[10] = 0xE01F05;
 	e->red[11] = 0xE01106;
-	if (z_min == p2.z && cpt == nb_pix && p2.z != p3.z)
+	if (c.nb_pix == 0)
+		c.cpt++;
+	else if (c.z_min == p2.z && c.cpt == c.nb_pix && p2.z != p3.z)
 	{
-		real_color++;
-		cpt = 0;
+		c.real_color += c.pass;
+		c.cpt = 0;
 	}
-	else if (cpt == nb_pix && p2.z != p3.z && z_min == p3.z)
+	else if ((c.cpt == c.nb_pix && p2.z != p3.z && c.z_min == p3.z))
 	{
-		real_color--;
-		cpt = 0;
+		c.real_color -= c.pass;
+		c.cpt = 0;
 	}
-	cpt++;
-	a = a + l.dx;
-	b += l.dy;
-	mlx_pixel_put(e->mlx, e->win, (int)a, b, e->red[real_color]);
-	}
+	c.cpt++;
+	return (c);
 }
 
-int			ft_color(t_env e, t_3d p0, t_3d p1)
+t_color		ft_color_min(t_env *e, t_color c, int color, t_3d p2, t_3d p3)
 {
-	int color;
-	int z_max;
-	int i;
-	double fac;
+	c.z_min = (p2.z < p3.z) ? p2.z : p3.z;
+	c.fac = (((double)(c.z_min) + (double)abs(e->min))/ ((double)abs(e->min)
+				+ (double)abs(e->max))) * 255;
+	c.color_min = (int)c.fac;
+	if (c.z_min == e->min || c.color_min == 0)
+		c.color_min = 1;
+//	printf("itemax : %d color min : %d color : %d e->min : %d  zmin : %d",c.ite_max, c.color_min , color, e->min, c.z_min);
+
+	if (color - abs(c.color_min) != 0 && (255 / c.ite_max < 1)){
+		c.nb_pix = (int)((c.ite_max / (color - abs(c.color_min))));
+		c.pass = 1;
+		/* printf("pix : %d \n", c.nb_pix);*/}
+ 	else if (color - abs(c.color_min) != 0 && (255 / c.ite_max >= 1))
+	{
+		c.nb_pix = 1;
+		c.pass = 255 / c.ite_max;
+	}
+	else
+		c.nb_pix = 0;
+	if (c.z_min == p3.z)
+		c.real_color = color;
+	else if (c.z_min == p2.z)
+		c.real_color = c.color_min;
+	return (c);
+}
+
+int		ft_color(t_env e, t_3d p0, t_3d p1)
+{
+	int	color;
+	int	z_max;
+	int	i;
+	double	fac;
 
 	i = 0;
 	z_max = (p0.z > p1.z) ? p0.z : p1.z;
-	/* fac = (    (double) ((double)abs(e.max) + (double)z_max)    /     (double)(    ((double)e.max - (double)e.min)  / 10)     ); */
-	fac = (((double)(z_max) - (double)(e.min) )/ ((double)abs(e.max)  + (double)abs(e.min))) * 10 ;
+	fac = (((double)(z_max) - (double)(e.min) )/ ((double)abs(e.max)
+				+ (double)abs(e.min))) * 255;
 	color = (int)fac;
-	printf("    z_max %d   /   e.max %d   = %lf\n", z_max, e.max, fac);
-	if (color <= 0 || color > 11)
+	/* printf("color : %d \n", color); */
+	/* printf("    z_max %d   /   e.max %d   = %lf\n", z_max, e.max, fac); */
+	if (color <= 0 || color > 255)
 		return (1);
-	/* else if (color < 0) */
-		/* return color  */
 	return(color);
 }
 void		ft_stock_mapi(t_ctx ctx)

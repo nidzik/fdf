@@ -6,15 +6,16 @@
 /*   By: nidzik <nidzik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/20 09:35:43 by nidzik            #+#    #+#             */
-/*   Updated: 2015/04/01 18:16:09 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/04/09 12:02:58 by bbichero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static char *ft_get_join(char *s1, char *s2)
+static char		*ft_get_join(char *s1, char *s2)
 {
-	char    *dst;
+	char		*dst;
+
 	if (s1 == NULL)
 	{
 		s1 = ft_strnew(1);
@@ -33,8 +34,8 @@ static char *ft_get_join(char *s1, char *s2)
 
 static int		ft_read(int fd, char **tmp)
 {
-	int		ret;
-	char	buf[BUF_SIZE + 1];
+	int			ret;
+	char		buf[BUF_SIZE + 1];
 
 	if (*tmp != NULL && ft_strchr(*tmp, '\n'))
 		return (1);
@@ -51,9 +52,9 @@ static int		ft_read(int fd, char **tmp)
 	return (ret <= 0 ? ret : 1);
 }
 
-static void	ft_truc(char **line, char **tmp, int *ret)
+static void		ft_truc(char **line, char **tmp, int *ret)
 {
-	char	*ptr;
+	char		*ptr;
 
 	if (*tmp != NULL && ft_strlen(*tmp) > 0)
 	{
@@ -74,7 +75,7 @@ static void	ft_truc(char **line, char **tmp, int *ret)
 	return ;
 }
 
-int			get_next_line(const int fd, char **line)
+int				get_next_line(const int fd, char **line)
 {
 	int			ret;
 	static char	*current = NULL;
@@ -89,21 +90,18 @@ int			get_next_line(const int fd, char **line)
 	return (ret);
 }
 
-t_env		ft_main(t_env *e, char *file)
+t_env			ft_main(t_env *e, char *file)
 {
-	int	fd;
-	char	** line;
-	int	i;
-	int	y;
+	int			i;
+	int			fd;
+	char		**line;
 
 	ft_count_rows(file);
 	i = 1;
 	fd = open(file, O_RDONLY);
-	e->map = (char **)malloc(sizeof(char *) * ft_count_rows(e->filename) + 1);
-	e->mapi = (int **)malloc(sizeof(int *) * ft_count_rows(e->filename) + 1);
 	if (fd > 1)
 	{
-		line = (char **) malloc(sizeof(char *) * ft_count_rows(e->filename) + 1);
+		line = (char **)malloc(sizeof(char *) * ft_count_rows(e->filename) + 1);
 		while (get_next_line (fd, line) > 0)
 		{
 			e->map[i] = (char *)malloc(sizeof(char) * (ft_strlen(*line) / 2));
@@ -114,8 +112,7 @@ t_env		ft_main(t_env *e, char *file)
 		e->mapi[i] = NULL;
 		e->map[i] = NULL;
 		i = 1;
-		free (line);
-		/* free(e->map); */
+		free(line);
 		close(fd);
 		ft_min_max(e);
 	}

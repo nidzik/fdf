@@ -1,34 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_coord3d.c                                       :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lebijuu <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/02/14 02:10:53 by lebijuu           #+#    #+#             */
-/*   Updated: 2015/04/09 11:57:01 by bbichero         ###   ########.fr       */
+/*   Created: 2015/04/10 09:36:14 by lebijuu           #+#    #+#             */
+/*   Updated: 2015/04/10 12:35:13 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-t_3d		*ft_create3d(int x, int y, int z)
+int main (void)
 {
-	t_3d	*p;
 
-	p = malloc(sizeof(t_2d *));
-	p->x = x;
-	p->y = y;
-	p->z = z;
-	return (p);
-}
+	int hex;
+	int i;
+	int hex2;
 
-t_3d		ft_create_3d_point_from_2d(t_2d pdx, int z)
-{
-	t_3d	p;
-
-	p.x = pdx.x;
-	p.y = pdx.y;
-	p.z = z;
-	return (p);
+	i = 0;
+	hex = 0xff0000;
+	/* while (i != 5) */
+	{
+		/* hex-= 0x010000; */
+		hex2 = hex - 0x010000;
+		//hex-= 0x000000;
+		printf("%#08x\n",hex2);
+		/* i ++; */
+		}
 }
