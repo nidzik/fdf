@@ -7,7 +7,7 @@
 /*   By: lebijuu <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/09 16:53:59 by lebijuu           #+#    #+#             */
-/*   Updated: 2015/04/11 10:41:28 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/04/11 11:26:16 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ t_env		*ft_palette(t_env *e, char **av)
 	bb = atoi(av[4]);
 	i = 254;
 	e->palette[255] = (atoi(av[2]) * 65536) + (atoi(av[3]) * 256) + (atoi(av[4]));
-	printf("%#08x   , %d   %d    %d  \n\n\n",e->palette[255],rr, vv, bb);
+	/* printf("%#08x   , %d   %d    %d  \n\n\n",e->palette[255],rr, vv, bb); */
 
 	 if (e->w == 2)
 		 while (i != 0)
@@ -86,7 +86,7 @@ t_env		*ft_palette(t_env *e, char **av)
 	{
 		while (i != 0)
 		{
-			printf("%#08x\n",e->palette[i + 1]);
+			/* printf("%#08x\n",e->palette[i + 1]); */
 			e->palette[i] = e->palette[i + 1];
 			if ((rr -= 1) > 0)
 			{
@@ -105,7 +105,7 @@ t_env		*ft_palette(t_env *e, char **av)
 			}
 			if (rr <= 0 && vv <= 0 && bb <= 0)
 				e->palette[i] = 0x000000;
-			printf("%#08x\n\n",e->palette[i]);
+			/* printf("%#08x\n\n",e->palette[i]); */
 			i--;
 		}
 	}
