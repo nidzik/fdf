@@ -6,7 +6,7 @@
 /*   By: lebijuu <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/14 15:09:44 by lebijuu           #+#    #+#             */
-/*   Updated: 2015/04/11 13:44:27 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/04/12 12:45:01 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void		ft_draw_line(t_3d p2, t_3d p3, t_env *e, int color)
 	c.ite_max = c.i;
 	color = ft_color(*e, p2, p3);
 	c = ft_color_min(e, c, color, p2, p3);
-	if (c.pass != 1)
+	if (c.pass > 10)
 		c.pass = c.real_color / c.ite_max;
 	while (c.i--)
 	{
@@ -44,14 +44,16 @@ void		ft_draw_line(t_3d p2, t_3d p3, t_env *e, int color)
 
 t_color		ft_degrader(t_color c, t_env *e, t_3d p2, t_3d p3)
 {
+	if (c.color_min == c.real_color)
+		c.pass = 0;
 	if (c.nb_pix == 0)
 		c.cpt++;
-	else if (c.z_min == p2.z && c.cpt == c.nb_pix && p2.z != p3.z)
+	else if (c.z_min == p2.z && c.cpt == c.nb_pix && p2.z != p3.z && (c.real_color + c.pass) <255)
 	{
 		c.real_color += c.pass;
 		c.cpt = 0;
 	}
-	else if ((c.cpt == c.nb_pix && p2.z != p3.z && c.z_min == p3.z))
+	else if ((c.cpt == c.nb_pix && p2.z != p3.z && c.z_min == p3.z && (c.real_color - c.pass > 0)))
 	{
 		c.real_color -= c.pass;
 		c.cpt = 0;
@@ -67,9 +69,9 @@ t_color		ft_color_min(t_env *e, t_color c, int color, t_3d p2, t_3d p3)
 	c.fac = (((double)(c.z_min) + (double)abs(e->min))/ ((double)abs(e->min)
 				+ (double)abs(e->max))) * 255;
 	c.color_min = (int)c.fac;
-	if (c.z_min == e->min || c.color_min == 0)
+	if (c.z_min == e->min)
 		c.color_min = 1;
-	if (color - abs(c.color_min) != 0 && (255 / c.ite_max < 1))
+	if (color - abs(c.color_min) != 0 && (255 / c.ite_max <= 1))
 	{
 		c.nb_pix = (int)((c.ite_max / (color - abs(c.color_min))));
 		c.pass = 1;
@@ -77,7 +79,7 @@ t_color		ft_color_min(t_env *e, t_color c, int color, t_3d p2, t_3d p3)
  	else if (color - abs(c.color_min) != 0 && (255 / c.ite_max >= 1))
 	{
 		c.nb_pix = 1;
-		c.pass = 255 / c.ite_max;
+		c.pass = (abs(color - c.color_min) / c.ite_max);
 	}
 	else
 		c.nb_pix = 0;
@@ -100,8 +102,6 @@ int		ft_color(t_env e, t_3d p0, t_3d p1)
 	fac = (((double)(z_max) - (double)(e.min) )/ ((double)abs(e.max)
 				+ (double)abs(e.min))) * 255;
 	color = (int)fac;
-	/* printf("color : %d \n", color); */
-	/* printf("    z_max %d   /   e.max %d   = %lf\n", z_max, e.max, fac); */
 	if (color <= 0 || color > 255)
 		return (1);
 	return(color);
