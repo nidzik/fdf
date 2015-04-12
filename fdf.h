@@ -6,7 +6,7 @@
 /*   By: nidzik  <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/11 11:56:31 by nidzik            #+#    #+#             */
-/*   Updated: 2015/04/11 15:02:12 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/04/12 23:38:15 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <fcntl.h>
 # include <stdlib.h>
 
-# define LINE_COLOR 0xccff00
+# define LINE_COLOR	0xccff00
 # define WIN_H		900
 # define WIN_W		1200
 # define SPACE		115
@@ -49,6 +49,7 @@ typedef struct	s_env
 	int		b;
 	int		w;
 	int		error;
+	int		k;
 }				t_env;
 
 typedef struct	s_win
@@ -63,7 +64,7 @@ typedef struct	s_2d
 	int			y;
 }				t_2d;
 
-typedef	struct	s_3d
+typedef struct	s_3d
 {
 	int			x;
 	int			y;
@@ -105,7 +106,7 @@ typedef struct	s_color
 }				t_color;
 
 t_color			ft_color_min(t_env *e, t_color c, int color, t_3d p2, t_3d p3);
-t_color			ft_degrader(t_color c, t_env *e, t_3d p2, t_3d p3);
+t_color			ft_degrader(t_color c, t_3d p2, t_3d p3);
 int				ft_color(t_env e, t_3d p0, t_3d p1);
 void			ft_min_max(t_env *e);
 void			ft_printf_line(t_ctx ctx, t_env e);
@@ -122,21 +123,22 @@ int				ft_count_columns(char *str);
 int				ft_count_columns_int(int *str);
 int				ft_count_rows(char *name);
 void			draw(t_env *e, t_ctx *ctx);
-int				expose_hook(t_env *e, t_ctx ctx);
+int				expose_hook(t_env *e);
 t_env			ft_main(t_env *e, char *file);
 int				get_next_line(int const fd, char **line);
-static int		ft_read(int fd, char **tmp);
+int				ft_read(int fd, char **tmp);
 void			ft_add_line(char **line, char **tmp, long len);
 int				ft_strpos(const char *str, char c);
-static char		*ft_get_join(char *s1, char *s2);
-static void		ft_truc(char **line, char **tmp, int *ret);
+char			*ft_get_join(char *s1, char *s2);
+void			ft_truc(char **line, char **tmp, int *ret);
 void			ft_draw_loop(t_env e, t_ctx *ctx);
 void			ft_init_ftmain(t_env *e);
-int				key_hook(int keycode, t_env *e, t_ctx *ctx);
-int				ft_test(t_env *e, int keycode, t_ctx *ctx);
+int				key_hook(int keycode, t_env *e);
+int				ft_test(t_env *e, int keycode);
 t_env			*ft_palette(t_env *e);
 t_env			ft_argv(int agc, char **agv, t_env e);
 t_env			*ft_error_gnl(t_env *e, int err);
-
+t_env			ft_main_suite(t_env *e, int fd, int i, char **line);
+void			test2(t_env *e);
 
 #endif

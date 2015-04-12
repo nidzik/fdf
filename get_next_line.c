@@ -6,13 +6,13 @@
 /*   By: nidzik <nidzik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/20 09:35:43 by nidzik            #+#    #+#             */
-/*   Updated: 2015/04/11 13:37:59 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/04/12 13:11:56 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static char		*ft_get_join(char *s1, char *s2)
+char		*ft_get_join(char *s1, char *s2)
 {
 	char		*dst;
 
@@ -32,7 +32,7 @@ static char		*ft_get_join(char *s1, char *s2)
 	return (dst);
 }
 
-static int		ft_read(int fd, char **tmp)
+int		ft_read(int fd, char **tmp)
 {
 	int			ret;
 	char		buf[BUF_SIZE + 1];
@@ -52,7 +52,7 @@ static int		ft_read(int fd, char **tmp)
 	return (ret <= 0 ? ret : 1);
 }
 
-static void		ft_truc(char **line, char **tmp, int *ret)
+void		ft_truc(char **line, char **tmp, int *ret)
 {
 	char		*ptr;
 
@@ -75,9 +75,9 @@ static void		ft_truc(char **line, char **tmp, int *ret)
 	return ;
 }
 
-int				get_next_line(const int fd, char **line)
+int			get_next_line(const int fd, char **line)
 {
-	int			ret;
+	int		ret;
 	static char	*current = NULL;
 
 	if (line == NULL)
@@ -92,30 +92,16 @@ int				get_next_line(const int fd, char **line)
 
 t_env			ft_main(t_env *e, char *file)
 {
-	int			i;
-	int			fd;
+	int		i;
+	int		fd;
 	char		**line;
 
 	ft_count_rows(file);
 	i = 1;
 	fd = open(file, O_RDONLY);
 	e = ft_error_gnl(e, fd);
+	line = (char **)malloc(sizeof(char *) * ft_count_rows(e->filename) + 1);
 	if (fd > 1)
-	{
-		line = (char **)malloc(sizeof(char *) * ft_count_rows(e->filename) + 1);
-		while (get_next_line (fd, line) > 0)
-		{
-			e->map[i] = (char *)malloc(sizeof(char) * (ft_strlen(*line) / 2));
-			e->map[i] = *line;
-			ft_char_to_int(*e, *line, i);
-			i++;
-		}
-		e->mapi[i] = NULL;
-		e->map[i] = NULL;
-		i = 1;
-		free(line);
-		close(fd);
-		ft_min_max(e);
-	}
+		*e = ft_main_suite(e, fd, i, line);
 	return (*e);
 }

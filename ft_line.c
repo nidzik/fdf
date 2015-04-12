@@ -6,7 +6,7 @@
 /*   By: lebijuu <nidzik@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/14 15:09:44 by lebijuu           #+#    #+#             */
-/*   Updated: 2015/04/12 12:45:01 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/04/12 16:12:02 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,14 @@ void		ft_draw_line(t_3d p2, t_3d p3, t_env *e, int color)
 		c.pass = c.real_color / c.ite_max;
 	while (c.i--)
 	{
-		c = ft_degrader(c, e, p2, p3);
+		c = ft_degrader(c, p2, p3);
 		c.a = c.a + l.dx;
 		c.b += l.dy;
 		mlx_pixel_put(e->mlx, e->win, c.a, c.b, e->palette[c.real_color]);
 	}
 }
 
-t_color		ft_degrader(t_color c, t_env *e, t_3d p2, t_3d p3)
+t_color		ft_degrader(t_color c, t_3d p2, t_3d p3)
 {
 	if (c.color_min == c.real_color)
 		c.pass = 0;
@@ -94,10 +94,8 @@ int		ft_color(t_env e, t_3d p0, t_3d p1)
 {
 	int	color;
 	int	z_max;
-	int	i;
 	double	fac;
 
-	i = 0;
 	z_max = (p0.z > p1.z) ? p0.z : p1.z;
 	fac = (((double)(z_max) - (double)(e.min) )/ ((double)abs(e.max)
 				+ (double)abs(e.min))) * 255;
@@ -122,21 +120,19 @@ void		ft_printf_line(t_ctx ctx, t_env e)
 	i = 1;
 	j = 1;
 	stop = ctx.i;
+	ft_putstr("yo");
 	while (ctx.tabp[j])
 	{
 		while (i != (stop - 1))
 		{
-
-			if (ctx.tabp[j + 1])
-			{
-				ft_draw_line(ctx.tabp[j][i], ctx.tabp[j + 1][i], &e, color);
-			}
 			ft_draw_line(ctx.tabp[j][i], ctx.tabp[j][i + 1], &e, color);
+			if (ctx.tabp[j + 1])
+				ft_draw_line(ctx.tabp[j][i], ctx.tabp[j+1][i], &e, color);
 			i++;
+			if(i == (stop - 1) && ctx.tabp[j+1])
+				ft_draw_line(ctx.tabp[j][i], ctx.tabp[j+1][i], &e, color);
 		}
-		if (ctx.tabp[j + 1])
-			ft_draw_line(ctx.tabp[j][i], ctx.tabp[j + 1][i], &e, color);
 		j++;
 		i = 1;
-	}
+		}
 }

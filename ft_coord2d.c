@@ -32,7 +32,8 @@ t_2d		ft_transform2d(t_3d p, t_env e)
 	np.x = (p.x * e.factor * 3) - (p.y * e.factor * 3) -
 			(p.z / (16 * e.factor)) + (WIN_H / 2);
 	np.y = (p.x * e.factor * 2) + (p.y * e.factor * 2) -
-			(p.z * (16 * e.factor)) - ((WIN_H * e.factor) - (1000 * e.factor));
+		(p.z * (16 * e.factor)) - ((WIN_H * e.factor) -
+				(1000 * e.factor));
 	return (np);
 }
 

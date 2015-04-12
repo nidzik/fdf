@@ -35,7 +35,7 @@ int			ft_len(char *str)
 	return (len);
 }
 
-void		ft_char_to_int(t_env e, char *str, int i)
+void			ft_char_to_int(t_env e, char *str, int i)
 {
 	int		cpt;
 	int		getnb;
@@ -87,7 +87,7 @@ int			ft_getnbr(char *str)
 	return (res);
 }
 
-void		ft_min_max(t_env *e)
+void			ft_min_max(t_env *e)
 {
 	int		i;
 	int		j;

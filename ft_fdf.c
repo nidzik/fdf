@@ -6,7 +6,7 @@
 /*   By: bbichero <bbichero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/09 12:08:16 by bbichero          #+#    #+#             */
-/*   Updated: 2015/04/11 15:01:01 by lebijuu          ###   ########.fr       */
+/*   Updated: 2015/04/12 23:39:04 by lebijuu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,59 +15,59 @@
 void		draw(t_env *e, t_ctx *ctx)
 {
 	ft_min_max(e);
-    ctx->i = 1;
-    ctx->j = 1;
-    ctx->y = 50;
-    ctx->x = 200;
-    e->space = (WIN_H - 200) / (10 + ft_count_rows(e->filename));
-    e->count = e->space;
-    ctx->tabp = (t_3d **)malloc(sizeof(t_3d *) * ft_count_rows(e->filename) + 1);
+	ctx->i = 1;
+	ctx->j = 1;
+	ctx->y = 50;
+	ctx->x = 200;
+	e->space = (WIN_H - 200) / (10 + ft_count_rows(e->filename));
+	e->count = e->space;
+	ctx->tabp = (t_3d **)malloc(sizeof(t_3d *) *
+			ft_count_rows(e->filename) + 2);
 	while (e->mapi[1][0] >= ctx->i && ctx->x < e->width - 50)
 	{
 		ft_draw_loop(*e, ctx);
+		ft_putchar('\n');
 		ctx->i += 1;
 		ctx->j = 1;
 		ctx->y = 50;
 		ctx->x += e->space;
 	}
-	ctx->tabp[ft_count_rows(e->filename)] = NULL;
+	ctx->tabp[ft_count_rows(e->filename) + 1 ] = NULL;
 	ft_printf_line(*ctx, *e);
-	free (ctx->tabp);
 }
 
-int			key_hook(int keycode, t_env *e, t_ctx *ctx)
+int			key_hook(int keycode, t_env *e)
 {
-	printf("key : %d\n", keycode);
 	if (keycode == 65307)
-//	if (keycode == 53)
+		//	if (keycode == 53)
 		exit(0);
 	if (keycode == 65362 || keycode == 65364)
-//	if (keycode == 126 || keycode == 125)
-		ft_test(e, keycode, ctx);
+		//	if (keycode == 126 || keycode == 125)
+		ft_test(e, keycode);
 	if (keycode == 119)
-//	if (keycode == 12)
+		//	if (keycode == 12)
 	{
 		e->factor += 0.01;
 		mlx_clear_window(e->mlx, e->win);
-		draw(e, ctx);
+		test2(e);
 	}
 	if (keycode == 113)
-//	if (keycode == 13)
+		//	if (keycode == 13)
 	{
 		e->factor -= 0.01;
 		mlx_clear_window(e->mlx, e->win);
-		draw(e, ctx);
-	}
+		test2(e);
+		}
 	return (0);
 }
 
-int			expose_hook(t_env *e,t_ctx ctx)
+int			expose_hook(t_env *e)
 {
-	draw(e, &ctx);
+	test2(e);
 	return (0);
 }
 
-int			ft_test(t_env *e, int keycode, t_ctx *ctx)
+int			ft_test(t_env *e, int keycode)
 {
 	int		y;
 	int		i;
@@ -80,11 +80,11 @@ int			ft_test(t_env *e, int keycode, t_ctx *ctx)
 		{
 			if (e->mapi[i][y] != 0)
 			{
-				if (keycode == 125)
-			//	if (keycode == 65362)
+				/* if (keycode == 125) */
+						if (keycode == 65362)
 					e->mapi[i][y]++;
-				if (keycode == 126)
-			//	if (keycode == 65362)
+				/* if (keycode == 126) */
+						if (keycode == 65364)
 					e->mapi[i][y]--;
 			}
 			y++;
@@ -92,16 +92,15 @@ int			ft_test(t_env *e, int keycode, t_ctx *ctx)
 		i++;
 	}
 	mlx_clear_window(e->mlx, e->win);
-	
-	draw(e, ctx);
+	test2(e);
 	return (0);
 }
-
 int			main(int ac, char **av)
 {
 	t_env	e;
 	t_ctx	ctx;
 
+	(void)ctx;
 	e.w = ac;
 	e = ft_argv(ac, av, e);
 	if (e.error == 1)
@@ -113,7 +112,6 @@ int			main(int ac, char **av)
 	e = ft_main(&e, av[1]);
 	if (e.error == 1)
 		return (0);
-//	ft_palette(&e,av);
 	e.width = 1200;
 	e.height = 900;
 	e.mlx = mlx_init();
