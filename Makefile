@@ -3,67 +3,69 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lebijuu <nidzik@student.42.fr>             +#+  +:+       +#+         #
+#    By: ngoguey <ngoguey@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2015/03/24 14:54:12 by lebijuu           #+#    #+#              #
-#    Updated: 2015/03/24 18:36:57 by lebijuu          ###   ########.fr        #
+#    Created: 2014/11/04 11:28:17 by ngoguey           #+#    #+#              #
+#    Updated: 2015/04/11 17:24:31 by lebijuu          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
 NAME = fdf
 
-#LIBFT
+# LIBFT
 LFTPATH = libft/
-LFTIPATH = -I $(LFTPATH)
+LFTIPATH = -I $(LFTPATH)includes/
 LFT = -L $(LFTPATH) -lft
+
 
 OBJPATH = obj
 SRCPATH = .
 INCLUDE = -I ./
 
+# MLX
 CC = gcc
+GRAPHLIB = -L/usr/X11/lib -lmlx -lXext -lX11
+GRAPHINC =
+SPECIALFILES = com_mlx.c putpix_mlx.c pause_mlx.c
 
-#FLAGS UBUNTU FDF
-UFLAGS = -L/usr/lib/X11/ -lmlx -L/usr/lib/X11 -lXext -lX11 -lm
-#FLAGS MAC FDF
-MFLAGS = -L/usr/X11/lib -lX11 -lXext -lmlx 
 
-LIBS = $(LFT) $(UFLAGS) 
-INCLUDES = $(INCLUDE) $(LFTPATH)
+LIBS = $(LFT) $(GRAPHLIB)
+INCLUDES = $(INCLUDE) $(LFTIPATH) $(GRAPHINC)
 
-LFTALL = all
 
 BASEFLAGS = -Wall -Wextra
 CFLAGS = $(BASEFLAGS) -Werror -O2
+DEBUGFLAGS = $(BASEFLAGS) -g
 
+LFTCALL = all
+LFTRE = re
+LFTG = g
+LFTGRE = gre
 
-SRCFILES = ft_array.c ft_coord2d.c ft_fdf.c get_next_line.c ft_check.c ft_coord3d.c \
-				ft_line.c
-
+SRCSFILES = ft_array.c ft_check.c ft_coord2d.c ft_coord3d.c \
+				ft_error.c ft_fdf.c ft_init.c get_next_line.c
 
 SRC = $(addprefix $(SRCPATH)/,$(SRCSFILES))
 OBJECTS = $(SRC:$(SRCPATH)/%.c=$(OBJPATH)/%.o)
-
 
 RM = rm -rf
 
 Y = \033[0;33m
 R = \033[0;31m
+G = \033[0;32m
 E = \033[39m
 
-W = 0
+all: l $(NAME)
 
-all : l $(NAME)
+$(NAME): $(OBJECTS)
+	@echo -e "$(Y)[COMPILING FDF] $(G) $(CC) -o $@ $(CFLAGS) objs.o $(LIBS) $(E)"
+	@$(CC) -o $@ $(CFLAGS) $(OBJECTS) $(INCLUDES) $(LIBS)
+	@echo -e "$(Y)[COMPILING FDF DONE]$(E)"
 
-$(NAME) : $(OBJECTS)
-	@echo "$(Y)[COMPILING FDF] $(E) $(CC) -o $@ $(CFLAGS) obj.o $(LIBS)"
-	@$(CC) -o $@ $(CFLAGS) $(OBJECTS) $(LIBS)
-	@echo "$(R)[COMPILING FDF] $(E)"
-
-$(OBJECTS) : $(OBJPATH)/%.o : $(SRCPATH)/%.c
+$(OBJECTS): $(OBJPATH)/%.o : $(SRCPATH)/%.c
 	@mkdir -p $(dir $@)
 	$(CC) -o $@ $(CFLAGS) $(INCLUDES) $(LIBS) -c $<
- 
+
 clean:
 	$(RM) $(OBJPATH)
 
@@ -71,9 +73,28 @@ fclean: clean
 	$(RM) $(NAME)
 
 l:
-	@echo "$(Y)[COMPILING LIBFT] $(E) make -C $(LFTPATH) $(LFTALL)"
-	@$(MAKE) -C $(LFTPATH) $(LFTALL)
-	@echo "$(R)[COMPILING LIBFT DONE]$(E)"
+	@echo -e "$(Y)[COMPILING LIBFT] $(G) make -C $(LFTPATH) $(LFTCALL) $(E)"
+	make -C $(LFTPATH) $(LFTCALL)
+	@echo -e "$(Y)[COMPILING LIBFT DONE]$(E)"
 
+g: _g _gft all
 
+# re rules
 re: fclean all
+rel: _relft l
+rea: _relft re
+
+# gre rules
+gre: _g re
+grel: _greft l
+grea: _g _greft re
+
+# eval rules
+_g:
+	$(eval CFLAGS = $(DEBUGFLAGS))
+_relft:
+	$(eval LFTCALL = $(LFTRE))
+_gft:
+	$(eval LFTCALL = $(LFTG))
+_greft:
+	$(eval LFTCALL = $(LFTGRE))
