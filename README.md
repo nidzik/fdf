@@ -21,7 +21,7 @@ My additions:
 Usage:
 ```sh
 make
-./fractol maps/42.fdf 50 200 255
+./fdf maps/42.fdf 50 200 255
 ```
 ![42](http://i.imgur.com/06hr4RR.png?1)
   or a bigger one
